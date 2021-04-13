@@ -3,4 +3,4 @@ project(ADSCoursework C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ADSCoursework main.c)
+add_executable(ADSCoursework main.c gameboard.c gameboard.h)
