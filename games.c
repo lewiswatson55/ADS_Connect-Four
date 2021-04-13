@@ -4,7 +4,7 @@
 // https://www.geeksforgeeks.org/construct-linked-list-2d-matrix/
 //
 
-#include "gameboard.h"
+#include "games.h"
 #include <stdio.h>
 #include <stdlib.h>
 

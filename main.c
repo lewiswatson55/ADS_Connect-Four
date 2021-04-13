@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-//GameBoard Header File
-#include "gameboard.h"
+//Game Header File
+#include "games.h"
 
 char menuSelection;
 
