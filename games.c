@@ -50,8 +50,10 @@ void displayBoard(struct Position* board, int width)
     // Create Column Pointer
     struct Position* column = board;
 
-    // UI: Column Labels (33_'s)
-    printf("%d_________________________________\n", width);
+    // UI: Display Column Labels
+    printf("  ");
+    for (int i = 1; i<=width; i++) {printf("  %d   ",i);}
+    printf("\n");
 
     // Loop until current column is NULL
     while (column != NULL) {

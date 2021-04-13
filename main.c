@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 {
     //menu();
 
-    newGame("Lewis\0", "Kate\0", 7, 5);
+    newGame("Lewis", "Kate", 7, 5);
     return 0;
 }
 
