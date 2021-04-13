@@ -8,6 +8,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void newGame(char *player1, char *player2, int columns, int rows){
+
+    //Create Game Structure
+    Game game = {.name1 = player1,
+            .name2 = player2,
+            .rowSize = rows,
+            .columnSize = columns,
+            .board = createBoard(0, 0, columns, rows)};
+
+    displayBoard(game.board, game.rowSize);
+
+    printf("\nCurrent player is %s!\n", game.name1);
+
+};
+
 struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows){
 
     // Ensure current row or column is not outwith board size.
@@ -24,7 +39,7 @@ struct Position* createBoard(int column, int row, int numberOfColumns, int numbe
 
 };
 
-void displayBoard(struct Position* board)
+void displayBoard(struct Position* board, int width)
 {
     // Clear Screen
     system("cls");
@@ -36,7 +51,7 @@ void displayBoard(struct Position* board)
     struct Position* column = board;
 
     // UI: Column Labels (33_'s)
-    printf("_________________________________\n");
+    printf("%d_________________________________\n", width);
 
     // Loop until current column is NULL
     while (column != NULL) {

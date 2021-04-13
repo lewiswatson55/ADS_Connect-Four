@@ -35,11 +35,7 @@ int main(int argc, char **argv)
 {
     //menu();
 
-    int numberOfColumns = 7, numberOfRows = 5;
-    struct Position* board;
-    board = createBoard(0, 0, numberOfColumns, numberOfRows);
-
-    displayBoard(board);
+    newGame("Lewis\0", "Kate\0", 7, 5);
     return 0;
 }
 
