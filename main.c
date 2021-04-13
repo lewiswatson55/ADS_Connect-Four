@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+//GameBoard Header File
+#include "gameboard.h"
+
 char menuSelection;
 
 void startGame();
@@ -30,7 +33,13 @@ void menu(){
 
 int main(int argc, char **argv)
 {
-    menu();
+    //menu();
+
+    int numberOfColumns = 7, numberOfRows = 5;
+    struct Position* board;
+    board = createBoard(0, 0, numberOfColumns, numberOfRows);
+
+    displayBoard(board);
     return 0;
 }
 
