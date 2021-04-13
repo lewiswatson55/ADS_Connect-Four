@@ -10,7 +10,7 @@
 
 void newGame(char *player1, char *player2, int columns, int rows){
 
-    //Create Game Structure
+    //Create Game Struct
     Game game = {.name1 = player1,
             .name2 = player2,
             .rowSize = rows,
