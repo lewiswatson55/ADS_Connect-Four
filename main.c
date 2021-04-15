@@ -34,8 +34,9 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-
-    newGame("Lewis", "Kate", 7, 5);
+    //newGame("Lewis", "Kate", 7, 5);
+    struct Position *board = createBoard(0,0,1,2);
+    displayBoard(board, 10);
     return 0;
 }
 
@@ -45,4 +46,8 @@ void startGame(){
 
 void otherOption(){
     printf("\n1Other Option\n");
+}
+
+void testMethod(){
+
 }
