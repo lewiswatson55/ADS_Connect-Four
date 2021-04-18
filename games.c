@@ -81,6 +81,7 @@ struct Position* deepCopyPosition(struct Position* to, struct Position* from){
         to->takenBy = from->takenBy;
         return to;
     }
+    //If null passed in on either to or from, just create new position with default values.
     struct Position* other = initPosition();
     return other;
 }
@@ -91,21 +92,10 @@ struct Position* constructLinkedMatrix(int row, int column) {
     struct Position *mainHead;
 
     struct Position *rightTemp, *tmpHead, *newPtr;
-//    tmpHead = (struct Position *) malloc(sizeof(struct Position));
-//    mainHead = (struct Position *) malloc(sizeof(struct Position));
-//    newPtr = (struct Position *) malloc(sizeof(struct Position));
-//    rightTemp = (struct Position *) malloc(sizeof(struct Position));
     mainHead = NULL;
     tmpHead = initPosition();
     newPtr = initPosition();
     rightTemp = initPosition();
-
-//    for(int counter=0; counter<MAX_GRID_SIZE; counter++) {
-//        head[counter] = (struct Position *) malloc(sizeof(struct Position));
-//        head[counter]->valid = false;
-//        head[counter]->takenBy = 0;
-//          //head[counter] = initPosition();
-//    }
 
     //Set New Ptr to blank Position
     newPtr->valid = true;
@@ -113,10 +103,6 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
     for(int i=0; i<row; i++){
 
-//        head[i] = (struct Position *) malloc(sizeof(struct Position));
-//        head[i]->valid = false;
-//        head[i]->takenBy = 0;
-        //head[i] = initPosition();
         head[i] = NULL;
 
         //J not used as just for the looping count (could be used if populating from 2d array ie arr[i][j])
@@ -128,39 +114,17 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
             //Initialise Main head Variable with tmpHead variable
             if (!mainHead) {
-                //memcpy(&newPtr,&mainHead, sizeof(struct Position *));
-                //mainHead = deepCopyPosition(mainHead,newPtr);]
-                //newPtr->valid = false;
                 mainHead = newPtr;
-//                mainHead->takenBy = 0;
-//                mainHead->valid = true;
             }
 
             //if head i not valid, initialise
             if (!head[i]) {
-
-                //memcpy(&newPtr,&head[i], sizeof(struct Position *));
-                //head[i] = deepCopyPosition(head[i], newPtr);
                 head[i] = newPtr;
-                //if (i==0) {head[i] = mainHead;}
-//                head[i]->takenBy = 0;
-//                head[i]->valid = true;
-
             } else {
                   // if initialised, position is along column so
-                //rightTemp->right = (struct Position *) malloc(sizeof(struct Position));
-//                rightTemp->right->takenBy=0;
-//                rightTemp->right->valid=true;
-                //memcpy(&newPtr,&rightTemp->right, sizeof(struct Position *));
-                //rightTemp->right = deepCopyPosition(rightTemp->right, newPtr);
                   rightTemp->right = newPtr;
             }
-//            rightTemp = (struct Position *) malloc(sizeof(struct Position));
-//            rightTemp->takenBy=0;
-//            rightTemp->valid=true;
             rightTemp = newPtr;
-            //memcpy(&newPtr,&rightTemp->right, sizeof(struct Position *));
-            //rightTemp = deepCopyPosition(rightTemp, newPtr);
         }
     }
 
@@ -169,9 +133,6 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
         struct Position* temp1 = head[i], *temp2 = head[i+1];
         while(temp1 && temp2){
-//            temp1->down = deepCopyPosition(temp2, temp1->down);
-//            temp1 = deepCopyPosition(temp1->right, temp1);
-//            temp2 = deepCopyPosition(temp2->right, temp2);
             temp1->down = temp2;
             temp1 = temp1->right;
             temp2 = temp2->right;
@@ -183,6 +144,7 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
 void insertCoin(struct Position* board, int column){
 
+    //Move 'right' to the correct column
     for (int counter=0; counter<column-1; counter++){
         board = board->right;
         printf("a\n");
