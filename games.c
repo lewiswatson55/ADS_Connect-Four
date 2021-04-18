@@ -18,7 +18,7 @@ void newGame(char *player1, char *player2, int columns, int rows){
             .name2 = player2,
             .rowSize = rows,
             .columnSize = columns,
-            .board = createBoard(0, 0, columns, rows)};
+            .board = constructLinkedMatrix(rows, columns)};
 
     moveController(game);
 
@@ -26,14 +26,13 @@ void newGame(char *player1, char *player2, int columns, int rows){
 
 void moveController(Game game){
 
-    printf("-----Game Board's Current State-----");
-    displayBoard(game.board, game.rowSize);
+    printf("-----Game Board's Current State-----\n\n");
+    displayBoard(game.board, game.columnSize);
 
     char selection[10];
     printf("\nCurrent player is %s!\nPlease select a column: ", game.name1);
-    fgets(selection, 8, stdin);
-
-    printf("Column %s chosen...", selection);
+    //fgets(selection, 8, stdin);
+    //printf("Column %s chosen...", selection);
 }
 
 //nofcolumns = rows
@@ -56,11 +55,7 @@ struct Position* createBoard(int row, int column, int numberOfColumns, int numbe
     temp->right = createBoard(row+1, column, numberOfColumns, numberOfRows);
     temp->down = createBoard(row, column+1, numberOfColumns, numberOfRows);
     return temp;
-
-
 };
-
-
 
 //Initialises a position to default values
 struct Position* initPosition(){
@@ -90,8 +85,8 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
     struct Position* head[MAX_GRID_SIZE];
     struct Position *mainHead;
-
     struct Position *rightTemp, *tmpHead, *newPtr;
+
     mainHead = NULL;
     tmpHead = initPosition();
     newPtr = initPosition();
@@ -138,7 +133,6 @@ struct Position* constructLinkedMatrix(int row, int column) {
             temp2 = temp2->right;
         }
     }
-
     return mainHead;
 }
 
@@ -147,7 +141,6 @@ void insertCoin(struct Position* board, int column){
     //Move 'right' to the correct column
     for (int counter=0; counter<column-1; counter++){
         board = board->right;
-        printf("a\n");
     }
 
     // While not at bottom of grid
