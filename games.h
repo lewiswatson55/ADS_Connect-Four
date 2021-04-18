@@ -7,6 +7,8 @@
 
 #include <stdbool.h>
 
+int count, valid;
+
 typedef struct {
     char *name1, *name2;
     int rowSize, columnSize;
@@ -15,7 +17,13 @@ typedef struct {
     bool gameEnded;
 } Game;
 
+struct node{
+    struct Position * data;
+    struct node * link;
+};
+
 struct Position {
+    bool valid;
     int takenBy;
     struct Position *right, *down;
 };
@@ -24,9 +32,12 @@ struct Position* createBoard(int column, int row, int numberOfColumns, int numbe
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
 void moveController(Game game);
+void insertCoin(struct Position* board, int column);
 void gameController();
 void player1Move(),player2Move();
 void checkDown(),checkRight(),checkDiagonal();
 void gravityMove(); //Animate dropping?
+
+struct Position* constructLinkedMatrix(int row, int column);
 
 #endif //ADSCOURSEWORK_GAMEBOARD_H
