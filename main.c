@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 
     displayBoard(board, 5);
 
-    int aaa = 6;
+    int aaa = 2;
     insertCoin(board, aaa);
     insertCoin(board, aaa);
     insertCoin(board, aaa);
