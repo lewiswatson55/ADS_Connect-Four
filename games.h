@@ -38,6 +38,7 @@ struct Position {
 };
 
 struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
+struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
 void moveController(Game game);

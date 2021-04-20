@@ -60,12 +60,16 @@ struct Position* createBoard(int row, int column, int numberOfColumns, int numbe
 struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
     if (log!=NULL) {
 
-        while (log->next!=NULL){log = log->next;}
+        while (log->next!=NULL){
+            log = log->next;
+        }
         struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
         entry->prev = log;
         entry->next = NULL;
         entry->move = move;
         entry->pTurn = pTurn;
+
+        log->next = entry;
 
         //Check which player was last and change to other.
 //        if (log->pTurn == 1) {
@@ -76,14 +80,15 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
 
     } else {
         // Only to be ran when initialising a new log
-        struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
-        entry->prev = NULL;
-        entry->next = NULL;
-        entry->move = move;
-        entry->pTurn = pTurn;
+        struct Entry* log = (struct Entry *) malloc(sizeof(struct Entry));
+        log->prev = NULL;
+        log->next = NULL;
+        log->move = move;
+        log->pTurn = pTurn;
+        return log;
     }
 
-    return
+    return log;
 }
 
 //Initialises a position to default values

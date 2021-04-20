@@ -34,24 +34,20 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-    newGame("Lewis", "Kate", 7, 6);
+    //newGame("Lewis", "Kate", 7, 6);
 
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(7,5);
     //displayBoard(board, 3);
     //printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
 
-//    displayBoard(board, 5);
-//
-//    int aaa = 2;
-//    insertCoin(board, aaa);
-//    insertCoin(board, aaa);
-//    insertCoin(board, aaa);
-//    insertCoin(board, aaa);
-//    insertCoin(board, aaa);
-//    insertCoin(board, aaa);
-//
-//    displayBoard(board,5);
+    struct Entry * log = newEntry(NULL, 0, 0);
+    newEntry(log, 1,1);
+    newEntry(log, 2,2);
+    newEntry(log, 2,2);
+    newEntry(log, 2,2);
+    newEntry(log, 4,1);
+    newEntry(log, 2,1);
 
     return 0;
 }
