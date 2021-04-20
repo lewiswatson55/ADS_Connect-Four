@@ -1,3 +1,0 @@
-C:/Users/lewis/CLionProjects/ADSCoursework/cmake-build-debug/CMakeFiles/ADSCoursework.dir
-C:/Users/lewis/CLionProjects/ADSCoursework/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/lewis/CLionProjects/ADSCoursework/cmake-build-debug/CMakeFiles/rebuild_cache.dir
