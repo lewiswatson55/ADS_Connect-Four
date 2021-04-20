@@ -49,6 +49,8 @@ int main(int argc, char **argv)
     newEntry(log, 4,1);
     newEntry(log, 2,1);
 
+    printf("Working...");
+
     return 0;
 }
 
