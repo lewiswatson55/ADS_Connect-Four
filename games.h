@@ -14,13 +14,22 @@ typedef struct {
     int rowSize, columnSize;
     int gameType;
     struct Position* board;
+    struct Entry *log; //Will be entry struct head
+    int pTurn;
     bool gameEnded;
 } Game;
 
-struct node{
-    struct Position * data;
-    struct node * link;
+struct Entry {
+    struct Entry *prev;
+    struct Entry *next;
+    int pTurn;
+    int move;
 };
+
+//struct node{
+//    struct Position * data;
+//    struct node * link;
+//};
 
 struct Position {
     bool valid;
