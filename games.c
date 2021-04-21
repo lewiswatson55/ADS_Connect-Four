@@ -69,8 +69,10 @@ void moveController(Game* game){
 }
 
 int checkWinConditions(Game* game){
-    return checkVerticalWinCondition(game);
-    //return 0;
+    if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game)) {
+        return 1;
+    }
+    return 0;
 }
 
 int checkVerticalWinCondition(Game* game){
@@ -119,6 +121,57 @@ int checkVerticalWinCondition(Game* game){
     }
 
     // Vertical win condition not met, return false
+    return 0;
+
+}
+
+int checkHorizontalWinCondition(Game* game){
+
+    // Initialise pointer and row pointer to first position on the game board
+    struct Position *pointer = game->board, *rowPointer = game->board;
+
+    // Loop through each of the Rows of the game board
+    for (int rowCounter = 0; rowCounter <= game->rowSize; rowCounter++) {
+
+        // Set consecutive counters to zero
+        int cons1 = 0, cons2 = 0;
+
+        // Loop through each of the columns (ie across the rows)
+        for (int colCounter = 0; colCounter <= game->columnSize; colCounter++) {
+
+            // Check for Null pointer
+            if (pointer!=NULL) {
+
+                // Skip other checks if position has not been taken by a player
+                if (pointer->takenBy == 0) {}
+
+                    // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
+                else if (pointer->takenBy == 1) {
+                    cons1++;
+                    cons2 = 0;
+                    // Check if found four consecutive 1's
+                    if (cons1 >= 4){game->winner = 1; return 1;}
+
+                } else {
+                    // Else position must be taken by player 2, reset player1's consecutive position counter, and add to player 2's
+                    cons2++;
+                    cons1 = 0;
+                    // Check if found four consecutive 2's
+                    if (cons2 >= 4){game->winner = 2; return 1;}
+                }
+                // Move pointer across the board
+                pointer = pointer->right;
+            }
+        }
+
+        // See if there is another row to be checked, if move row pointer to new row, set pointer to same position
+        if (rowPointer->down != NULL) {
+            rowPointer = rowPointer->down;
+            pointer = rowPointer;
+        }
+    }
+
+    // Horizontal win condition not met, return false
     return 0;
 
 }
