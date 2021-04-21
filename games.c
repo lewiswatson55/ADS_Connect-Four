@@ -99,19 +99,19 @@ int checkVerticalWinCondition(Game* game){
                 else if (pointer->takenBy == 1) {
                     cons1++;
                     cons2 = 0;
+                    // Check if found four consecutive 1's
+                    if (cons1 >= 4){game->winner = 1; return 1;}
                 } else {
                     // Else position must be taken by player 2, reset player1's consecutive position counter, and add to player 2's
                     cons2++;
                     cons1 = 0;
+                    // Check if found four consecutive 2's
+                    if (cons2 >= 4){game->winner = 2; return 1;}
                 }
                 // Move pointer down the board
                 pointer = pointer->down;
             }
         }
-
-        // Check for winner on current column
-        if (cons1 >= 4){game->winner = 1; return 1;}
-        if (cons2 >= 4){game->winner = 2; return 1;}
 
         // See if there is another column to be checked, if move column pointer to new column, set pointer to same position
         if (columnPointer->right != NULL) {

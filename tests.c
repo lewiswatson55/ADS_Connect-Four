@@ -2,10 +2,16 @@
 // Created by lewis on 21/04/2021.
 //
 
+#include "games.h"
+#include <stdio.h>
+
+void testHorizontalGameWin();
+void testVerticalWin();
+void testEntry();
+
+
 int main(int argc, char **argv)
 {
-
-
     testHorizontalGameWin();
     testVerticalWin();
     testEntry();
@@ -18,8 +24,8 @@ int main(int argc, char **argv)
 void testVerticalWin() {
     //Create Game Struct
     Game game = {
-            .name1 = player1,
-            .name2 = player2,
+            .name1 = "player1",
+            .name2 = "player2",
             .rowSize = 7,
             .columnSize = 6,
             .board = constructLinkedMatrix(7,6),
@@ -45,8 +51,8 @@ void testVerticalWin() {
 void testHorizontalGameWin() {
     //Create Game Struct
     Game game = {
-            .name1 = player1,
-            .name2 = player2,
+            .name1 = "player1",
+            .name2 = "player2",
             .rowSize = 7,
             .columnSize = 6,
             .board = constructLinkedMatrix(7,6),

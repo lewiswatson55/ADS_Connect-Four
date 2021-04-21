@@ -47,11 +47,11 @@ int main(int argc, char **argv)
     game.rowSize = 7;
 
     insertCoin(game.board, 1, 2);
-    insertCoin(game.board, 2, 1);
-    insertCoin(game.board, 3, 1);
-    insertCoin(game.board, 4, 1);
-    insertCoin(game.board, 5, 1);
-    insertCoin(game.board, 6, 2);
+    insertCoin(game.board, 1, 1);
+    insertCoin(game.board, 1, 1);
+    insertCoin(game.board, 1, 1);
+    insertCoin(game.board, 1, 1);
+    insertCoin(game.board, 1, 2);
 
     displayBoard(game.board, 6);
 
