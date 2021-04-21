@@ -36,10 +36,28 @@ int main(int argc, char **argv)
     //menu();
     newGame("Lewis", "Kate", 7, 6);
 
+
+
     //struct Position *board = createBoard(0,0,3,3);
-//    struct Position *board = constructLinkedMatrix(7,5);
-//    insertCoin(board, 1, 2);
-//    displayBoard(board, 5);
+    //struct Position *board = constructLinkedMatrix(7,6);
+
+//    Game game;
+//    game.board = constructLinkedMatrix(7,6);
+//    game.columnSize = 6;
+//    game.rowSize = 7;
+//
+//    int pos = 6;
+//    insertCoin(game.board, pos, 2);
+//    insertCoin(game.board, pos, 2);
+//    insertCoin(game.board, pos, 2);
+//
+//    displayBoard(game.board, 6);
+//
+//    if (checkWinConditions(&game)) {
+//        printf("WINNER");
+//    }
+
+
     //printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
 
 //    struct Entry * log = newEntry(NULL, 0, 0);

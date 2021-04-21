@@ -42,7 +42,7 @@ void moveController(Game* game){
 
     char *currentPlayer;
 
-    while (!checkWinConditions(*game)) {
+    while (!checkWinConditions(game)) {
 
         if (game->pTurn == 1) {currentPlayer = game->name1;} else {currentPlayer = game->name2;}
 
@@ -57,10 +57,70 @@ void moveController(Game* game){
         insertCoin(game->board, selection, game->pTurn);
         togglePlayer(game);
     }
+
+    char *winner;
+    printf("\n------------------Winner!------------------\n\n");
+    displayBoard(game->board, game->columnSize);
+
+    // Get Winners Name
+    if (game->winner == 1) {winner = game->name1;} else {winner = game->name2;}
+
+    printf("Congratulations to %s for winning!", winner);
 }
 
-int checkWinConditions(Game game){
+int checkWinConditions(Game* game){
+    return checkVerticalWinCondition(game);
+    //return 0;
+}
+
+int checkVerticalWinCondition(Game* game){
+
+    // Initialise pointer and column pointer to first position on the game board
+    struct Position *pointer = game->board, *columnPointer = game->board;
+
+    // Loop through each of the Columns of the game board
+    for (int colCounter = 0; colCounter <= game->columnSize; colCounter++) {
+
+        // Set consecutive counters to zero
+        int cons1 = 0, cons2 = 0;
+
+        // Loop through each of the rows (ie down the column)
+        for (int rowCounter = 0; rowCounter <= game->rowSize; rowCounter++) {
+
+            // Check for Null pointer
+            if (pointer!=NULL) {
+
+                // Skip other checks if position has not been taken by a player
+                if (pointer->takenBy == 0) {}
+
+                // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
+                else if (pointer->takenBy == 1) {
+                    cons1++;
+                    cons2 = 0;
+                } else {
+                    // Else position must be taken by player 2, reset player1's consecutive position counter, and add to player 2's
+                    cons2++;
+                    cons1 = 0;
+                }
+                // Move pointer down the board
+                pointer = pointer->down;
+            }
+        }
+
+        // Check for winner on current column
+        if (cons1 >= 4){game->winner = 1; return 1;}
+        if (cons2 >= 4){game->winner = 2; return 1;}
+
+        // See if there is another column to be checked, if move column pointer to new column, set pointer to same position
+        if (columnPointer->right != NULL) {
+            columnPointer = columnPointer->right;
+            pointer = columnPointer;
+        }
+    }
+
+    // Vertical win condition not met, return false
     return 0;
+
 }
 
 //struct Position* createBoard(int row, int column, int numberOfColumns, int numberOfRows){
