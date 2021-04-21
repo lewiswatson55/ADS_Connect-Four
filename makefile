@@ -1,5 +1,5 @@
 all:  main
 
 main:
-	gcc -o ADSCoursework.exe main.c games.c
+	gcc -o ADSCoursework.exe tests.c games.c
 	./ADSCoursework.exe
