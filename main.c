@@ -39,28 +39,29 @@ int main(int argc, char **argv)
 
 
     //struct Position *board = createBoard(0,0,3,3);
-    //struct Position *board = constructLinkedMatrix(7,6);
+    struct Position *board = constructLinkedMatrix(10,10);
 
-    Game game;
-    game.board = constructLinkedMatrix(7,6);
-    game.columnSize = 6;
-    game.rowSize = 7;
+//    Game game;
+//    game.board = constructLinkedMatrix(7,6);
+//    game.columnSize = 6;
+//    game.rowSize = 7;
+//
+//    insertCoin(game.board, 1, 2);
+//    insertCoin(game.board, 1, 1);
+//    insertCoin(game.board, 1, 1);
+//    insertCoin(game.board, 1, 1);
+//    insertCoin(game.board, 1, 1);
+//    insertCoin(game.board, 1, 2);
+//
+    displayBoard(board, 3);
+//
+//    if (checkWinConditions(&game)) {
+//        printf("WINNER");
+//    }
 
-    insertCoin(game.board, 1, 2);
-    insertCoin(game.board, 1, 1);
-    insertCoin(game.board, 1, 1);
-    insertCoin(game.board, 1, 1);
-    insertCoin(game.board, 1, 1);
-    insertCoin(game.board, 1, 2);
+    backConnect(board,10,10);
 
-    displayBoard(game.board, 6);
-
-    if (checkWinConditions(&game)) {
-        printf("WINNER");
-    }
-
-
-    //printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
+//    printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
 
 //    struct Entry * log = newEntry(NULL, 0, 0);
 //    newEntry(log, 1,1);
@@ -70,7 +71,7 @@ int main(int argc, char **argv)
 //    newEntry(log, 4,1);
 //    newEntry(log, 2,1);
 
-    printf("\n\n\nWorking...");
+    printf("\nWorking...");
 
     return 0;
 }

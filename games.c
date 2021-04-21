@@ -230,6 +230,8 @@ struct Position* initPosition(){
     pos->valid = false;
     pos->right = NULL;
     pos->down = NULL;
+    pos->left = NULL;
+    pos->up = NULL;
     pos->takenBy = 0;
     return pos;
 }
@@ -300,7 +302,40 @@ struct Position* constructLinkedMatrix(int row, int column) {
             temp2 = temp2->right;
         }
     }
+
     return mainHead;
+}
+
+void backConnect(struct Position* board, int row, int column){
+
+    struct Position *pointer, *rowPointer, *colPointer;
+    pointer = board;
+    colPointer = board;
+    rowPointer = board;
+
+    // Loop through each column
+    for (int colCounter = 0; colCounter <= column; colCounter++) {
+
+        //pointer = colPointer;
+
+        // Loop Through each row of current column
+        for (int rowCounter = 0; rowCounter <= row; rowCounter++) {
+            // Set Pointer to the rowPointer
+            pointer = rowPointer;
+
+            // if pointer's down is not null,
+            if (pointer->down != NULL) {
+                pointer->down->up = pointer;
+            }
+
+            if (pointer->right != NULL) {
+                pointer->right->left = pointer;
+            }
+
+            if (rowPointer->down != NULL) {rowPointer = rowPointer->down;}
+        }
+        if (colPointer->right != NULL) {rowPointer = colPointer->right; colPointer = colPointer->right;}
+    }
 }
 
 void insertCoin(struct Position* board, int column, int player){

@@ -36,7 +36,7 @@ struct Entry {
 struct Position {
     bool valid;
     int takenBy;
-    struct Position *right, *down;
+    struct Position *right, *down, *left, *up;
 };
 
 struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
@@ -52,6 +52,8 @@ void gameController();
 void player1Move(),player2Move();
 void checkDown(),checkRight(),checkDiagonal();
 void gravityMove(); //Animate dropping?
+
+void backConnect(struct Position* board, int row, int column);
 
 struct Position* constructLinkedMatrix(int row, int column);
 
