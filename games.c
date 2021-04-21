@@ -14,11 +14,17 @@
 void newGame(char *player1, char *player2, int columns, int rows){
 
     //Create Game Struct
-    Game game = {.name1 = player1,
+    Game game = {
+            .name1 = player1,
             .name2 = player2,
             .rowSize = rows,
             .columnSize = columns,
-            .board = constructLinkedMatrix(rows, columns)};
+            .board = constructLinkedMatrix(rows, columns),
+            .pTurn = 1,
+            .log = newEntry(NULL, 0, 0),
+            .gameEnded = false,
+            .gameType = 0
+    };
 
     moveController(game);
 
@@ -31,8 +37,10 @@ void moveController(Game game){
 
     char selection[10];
     printf("\nCurrent player is %s!\nPlease select a column: ", game.name1);
-    //fgets(selection, 8, stdin);
-    //printf("Column %s chosen...", selection);
+    fgets(selection, 8, stdin);
+    printf("Column %s chosen...", selection);
+
+
 }
 
 //nofcolumns = rows
@@ -70,13 +78,6 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
         entry->pTurn = pTurn;
 
         log->next = entry;
-
-        //Check which player was last and change to other.
-//        if (log->pTurn == 1) {
-//            entry->pTurn = 2;
-//        } else {
-//            entry->pTurn = 1;
-//        }
 
     } else {
         // Only to be ran when initialising a new log
@@ -170,7 +171,7 @@ struct Position* constructLinkedMatrix(int row, int column) {
     return mainHead;
 }
 
-void insertCoin(struct Position* board, int column){
+void insertCoin(struct Position* board, int column, int player){
 
     //Move 'right' to the correct column
     for (int counter=0; counter<column-1; counter++){
@@ -181,7 +182,7 @@ void insertCoin(struct Position* board, int column){
     while(board->down!=NULL && board->down->takenBy==0) {
         board = board->down;
     }
-    board->takenBy = 1;
+    board->takenBy = player;
 }
 
 void displayBoard(struct Position* board, int width)

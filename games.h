@@ -14,7 +14,7 @@ typedef struct {
     int rowSize, columnSize;
     int gameType;
     struct Position* board;
-    struct Entry *log; //Will be entry struct head
+    struct Entry *log;
     int pTurn;
     bool gameEnded;
 } Game;
@@ -42,7 +42,7 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
 void moveController(Game game);
-void insertCoin(struct Position* board, int column);
+void insertCoin(struct Position* board, int column, int player);
 void gameController();
 void player1Move(),player2Move();
 void checkDown(),checkRight(),checkDiagonal();
