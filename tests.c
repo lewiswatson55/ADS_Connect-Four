@@ -77,5 +77,5 @@ void testEntry() {
     newEntry(log, 2,2);
     newEntry(log, 4,1);
     newEntry(log, 2,1);
-    printf("\nEntry seems to work...")
+    printf("\nEntry seems to work...");
 }
