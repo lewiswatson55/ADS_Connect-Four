@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#define MAX_GRID_SIZE 10
 
 void newGame(char *player1, char *player2, int columns, int rows){
 
@@ -22,48 +21,68 @@ void newGame(char *player1, char *player2, int columns, int rows){
             .board = constructLinkedMatrix(rows, columns),
             .pTurn = 1,
             .log = newEntry(NULL, 0, 0),
-            .gameEnded = false,
             .gameType = 0
     };
 
-    moveController(game);
+    moveController(&game);
 
 };
 
-void moveController(Game game){
-
-    printf("-----Game Board's Current State-----\n\n");
-    displayBoard(game.board, game.columnSize);
-
-    char selection[10];
-    printf("\nCurrent player is %s!\nPlease select a column: ", game.name1);
-    fgets(selection, 8, stdin);
-    printf("Column %s chosen...", selection);
-
-
+// Toggles Game Objects Player's Turn Attribute
+void togglePlayer(Game* game) {
+    if (game->pTurn == 1) {
+        game->pTurn = 2;
+    } else {
+        game->pTurn = 1;
+    }
 }
 
-//nofcolumns = rows
-struct Position* createBoard(int row, int column, int numberOfColumns, int numberOfRows){
+// Plan for un/redo would be check user input over 100 and user 101 102... as other options.
+void moveController(Game* game){
 
-    count++;
+    char *currentPlayer;
 
-    // Ensure current row or column is not outwith board size.
-    if (row  > numberOfColumns - 1 || column > numberOfRows - 1)
-        return NULL;
+    while (!checkWinConditions(*game)) {
 
-    valid++;
+        if (game->pTurn == 1) {currentPlayer = game->name1;} else {currentPlayer = game->name2;}
 
-    struct Position *temp;
+        printf("\n-----Game Board's Current State-----\n\n");
+        displayBoard(game->board, game->columnSize);
 
-    temp = (struct Position *) malloc(sizeof(struct Position));
-    //temp->takenBy = 0;
-    temp->takenBy = 0;
-    temp->valid = true;
-    temp->right = createBoard(row+1, column, numberOfColumns, numberOfRows);
-    temp->down = createBoard(row, column+1, numberOfColumns, numberOfRows);
-    return temp;
-};
+        printf("\nCurrent player is %s!\nPlease select a column: ", currentPlayer);
+
+        int selection;
+        scanf("%d",&selection);
+
+        insertCoin(game->board, selection, game->pTurn);
+        togglePlayer(game);
+    }
+}
+
+int checkWinConditions(Game game){
+    return 0;
+}
+
+//struct Position* createBoard(int row, int column, int numberOfColumns, int numberOfRows){
+//
+//    count++;
+//
+//    // Ensure current row or column is not outwith board size.
+//    if (row  > numberOfColumns - 1 || column > numberOfRows - 1)
+//        return NULL;
+//
+//    valid++;
+//
+//    struct Position *temp;
+//
+//    temp = (struct Position *) malloc(sizeof(struct Position));
+//    //temp->takenBy = 0;
+//    temp->takenBy = 0;
+//    temp->valid = true;
+//    temp->right = createBoard(row+1, column, numberOfColumns, numberOfRows);
+//    temp->down = createBoard(row, column+1, numberOfColumns, numberOfRows);
+//    return temp;
+//};
 
 struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
     if (log!=NULL) {

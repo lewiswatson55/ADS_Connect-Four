@@ -37,8 +37,9 @@ int main(int argc, char **argv)
     newGame("Lewis", "Kate", 7, 6);
 
     //struct Position *board = createBoard(0,0,3,3);
-    //struct Position *board = constructLinkedMatrix(7,5);
-    //displayBoard(board, 3);
+//    struct Position *board = constructLinkedMatrix(7,5);
+//    insertCoin(board, 1, 2);
+//    displayBoard(board, 5);
     //printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
 
 //    struct Entry * log = newEntry(NULL, 0, 0);
@@ -49,7 +50,7 @@ int main(int argc, char **argv)
 //    newEntry(log, 4,1);
 //    newEntry(log, 2,1);
 
-    printf("Working...");
+    printf("\n\n\nWorking...");
 
     return 0;
 }

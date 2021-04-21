@@ -6,6 +6,7 @@
 #define ADSCOURSEWORK_GAMEBOARD_H
 
 #include <stdbool.h>
+#define MAX_GRID_SIZE 10
 
 int count, valid;
 
@@ -16,9 +17,9 @@ typedef struct {
     struct Position* board;
     struct Entry *log;
     int pTurn;
-    bool gameEnded;
 } Game;
 
+// Log Entry
 struct Entry {
     struct Entry *prev;
     struct Entry *next;
@@ -41,8 +42,9 @@ struct Position* createBoard(int column, int row, int numberOfColumns, int numbe
 struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
-void moveController(Game game);
+void moveController(Game* game);
 void insertCoin(struct Position* board, int column, int player);
+int checkWinConditions(Game game);
 void gameController();
 void player1Move(),player2Move();
 void checkDown(),checkRight(),checkDiagonal();
