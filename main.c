@@ -59,8 +59,6 @@ int main(int argc, char **argv)
 //        printf("WINNER");
 //    }
 
-    backConnect(board,10,10);
-
 //    printf("\n\nCalls: %d\nValid: %d\n\n\n", count, valid);
 
 //    struct Entry * log = newEntry(NULL, 0, 0);

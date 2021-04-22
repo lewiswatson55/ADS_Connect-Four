@@ -53,7 +53,7 @@ void player1Move(),player2Move();
 void checkDown(),checkRight(),checkDiagonal();
 void gravityMove(); //Animate dropping?
 
-void backConnect(struct Position* board, int row, int column);
+void linkUpLeft(struct Position* board, int row, int column);
 
 struct Position* constructLinkedMatrix(int row, int column);
 

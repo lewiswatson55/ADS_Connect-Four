@@ -303,10 +303,13 @@ struct Position* constructLinkedMatrix(int row, int column) {
         }
     }
 
+    // Link Up and Left Pointers
+    linkUpLeft(mainHead, row, column);
+
     return mainHead;
 }
 
-void backConnect(struct Position* board, int row, int column){
+void linkUpLeft(struct Position* board, int row, int column){
 
     struct Position *pointer, *rowPointer, *colPointer;
     pointer = board;
