@@ -54,7 +54,7 @@ void moveController(Game* game){
         int selection;
         scanf("%d",&selection);
 
-        insertCoin(game->board, selection, game->pTurn);
+        insertCoin(game, selection, game->pTurn);
         togglePlayer(game);
     }
 
@@ -459,7 +459,9 @@ void linkUpLeft(struct Position* board, int row, int column){
     }
 }
 
-void insertCoin(struct Position* board, int column, int player){
+void insertCoin(Game* game, int column, int player){
+
+    struct Position* board = game->board;
 
     //Move 'right' to the correct column
     for (int counter=0; counter<column-1; counter++){
@@ -471,6 +473,9 @@ void insertCoin(struct Position* board, int column, int player){
         board = board->down;
     }
     board->takenBy = player;
+
+    // Add move to game log
+    newEntry(game->log, column, player);
 }
 
 void displayBoard(struct Position* board, int width)

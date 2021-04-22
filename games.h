@@ -44,7 +44,7 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
 void moveController(Game* game);
-void insertCoin(struct Position* board, int column, int player);
+void insertCoin(Game* game, int column, int player);
 int checkWinConditions(Game* game);
 int checkVerticalWinCondition(Game* game);
 int checkHorizontalWinCondition(Game* game);

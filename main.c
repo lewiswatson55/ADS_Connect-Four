@@ -34,39 +34,46 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-    newGame("Lewis", "Kate", 7, 6);
+    //newGame("Lewis", "Kate", 7, 6);
 
 
 
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(10,10);
 
-//    Game game;
-//    game.board = constructLinkedMatrix(7,6);
-//    game.columnSize = 6;
-//    game.rowSize = 7;
+    //Create Game Struct
+    Game game = {
+            .name1 = "player1",
+            .name2 = "player2",
+            .rowSize = 7,
+            .columnSize = 6,
+            .board = constructLinkedMatrix(7, 6),
+            .pTurn = 1,
+            .log = newEntry(NULL, 0, 0),
+            .gameType = 0
+    };
 
-//    insertCoin(game.board, 1, 2);
-//    insertCoin(game.board, 2, 2);
-//    insertCoin(game.board, 2, 1);
-//    insertCoin(game.board, 3, 1);
-//    insertCoin(game.board, 3, 1);
-//    insertCoin(game.board, 3, 1);
-//    insertCoin(game.board, 4, 1);
-//    insertCoin(game.board, 4, 2);
-//    insertCoin(game.board, 4, 2);
-//    insertCoin(game.board, 4, 1);
-//    insertCoin(game.board, 5, 1);
-//    insertCoin(game.board, 5, 1);
-//    insertCoin(game.board, 5, 2);
-//    insertCoin(game.board, 5, 2);
-//    insertCoin(game.board, 5, 1);
-//    insertCoin(game.board, 6, 2);
-//    insertCoin(game.board, 6, 2);
-//    insertCoin(game.board, 6, 1);
-//    insertCoin(game.board, 6, 2);
-//    insertCoin(game.board, 6, 2);
-//    insertCoin(game.board, 6, 2);
+    insertCoin(&game, 1, 2);
+//    insertCoin(&game, 2, 2);
+//    insertCoin(&game, 2, 1);
+//    insertCoin(&game, 3, 1);
+//    insertCoin(&game, 3, 1);
+//    insertCoin(&game, 3, 1);
+//    insertCoin(&game, 4, 1);
+//    insertCoin(&game, 4, 2);
+//    insertCoin(&game, 4, 2);
+//    insertCoin(&game, 4, 1);
+//    insertCoin(&game, 5, 1);
+//    insertCoin(&game, 5, 1);
+//    insertCoin(&game, 5, 2);
+//    insertCoin(&game, 5, 2);
+//    insertCoin(&game, 5, 1);
+//    insertCoin(&game, 6, 2);
+//    insertCoin(&game, 6, 2);
+//    insertCoin(&game, 6, 1);
+//    insertCoin(&game, 6, 2);
+//    insertCoin(&game, 6, 2);
+//    insertCoin(&game, 6, 2);
 
 //    insertCoin(game.board, 6, 2);
 //    insertCoin(game.board, 5, 2);
@@ -105,10 +112,10 @@ int main(int argc, char **argv)
 //    struct Entry * log = newEntry(NULL, 0, 0);
 //    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
+//    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
+//    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
-//    newEntry(log, 4,1);
-//    newEntry(log, 2,1);
 
     return 0;
 }
