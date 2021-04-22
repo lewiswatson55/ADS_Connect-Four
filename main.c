@@ -34,17 +34,17 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-    //newGame("Lewis", "Kate", 7, 6);
+    newGame("Lewis", "Kate", 7, 6);
 
 
 
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(10,10);
 
-    Game game;
-    game.board = constructLinkedMatrix(7,6);
-    game.columnSize = 6;
-    game.rowSize = 7;
+//    Game game;
+//    game.board = constructLinkedMatrix(7,6);
+//    game.columnSize = 6;
+//    game.rowSize = 7;
 
 //    insertCoin(game.board, 1, 2);
 //    insertCoin(game.board, 2, 2);
@@ -90,11 +90,11 @@ int main(int argc, char **argv)
 //    insertCoin(game.board, 1, 2);
 //    insertCoin(game.board, 1, 2);
 
-    displayBoard(game.board, 6);
-
-    if (checkWinConditions(&game)) {
-        printf("WINNER");
-    }
+//    displayBoard(game.board, 6);
+//
+//    if (checkWinConditions(&game)) {
+//        printf("WINNER");
+//    }
 
 //    if (checkDiagonalWinConditionNeg(&game)) {
 //        printf("WINNER");
