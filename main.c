@@ -39,23 +39,64 @@ int main(int argc, char **argv)
 
 
     //struct Position *board = createBoard(0,0,3,3);
-    struct Position *board = constructLinkedMatrix(10,10);
+    //struct Position *board = constructLinkedMatrix(10,10);
 
-//    Game game;
-//    game.board = constructLinkedMatrix(7,6);
-//    game.columnSize = 6;
-//    game.rowSize = 7;
-//
+    Game game;
+    game.board = constructLinkedMatrix(7,6);
+    game.columnSize = 6;
+    game.rowSize = 7;
+
+//    insertCoin(game.board, 1, 2);
+//    insertCoin(game.board, 2, 2);
+//    insertCoin(game.board, 2, 1);
+//    insertCoin(game.board, 3, 1);
+//    insertCoin(game.board, 3, 1);
+//    insertCoin(game.board, 3, 1);
+//    insertCoin(game.board, 4, 1);
+//    insertCoin(game.board, 4, 2);
+//    insertCoin(game.board, 4, 2);
+//    insertCoin(game.board, 4, 1);
+//    insertCoin(game.board, 5, 1);
+//    insertCoin(game.board, 5, 1);
+//    insertCoin(game.board, 5, 2);
+//    insertCoin(game.board, 5, 2);
+//    insertCoin(game.board, 5, 1);
+//    insertCoin(game.board, 6, 2);
+//    insertCoin(game.board, 6, 2);
+//    insertCoin(game.board, 6, 1);
+//    insertCoin(game.board, 6, 2);
+//    insertCoin(game.board, 6, 2);
+//    insertCoin(game.board, 6, 2);
+
+//    insertCoin(game.board, 6, 2);
+//    insertCoin(game.board, 5, 2);
+//    insertCoin(game.board, 5, 1);
+//    insertCoin(game.board, 4, 1);
+//    insertCoin(game.board, 4, 1);
+//    insertCoin(game.board, 4, 1);
+//    insertCoin(game.board, 3, 1);
+//    insertCoin(game.board, 3, 2);
+//    insertCoin(game.board, 3, 2);
+//    insertCoin(game.board, 3, 2); //Toggle
+//    insertCoin(game.board, 2, 1);
+//    insertCoin(game.board, 2, 1);
+//    insertCoin(game.board, 2, 2);
+//    insertCoin(game.board, 2, 2);
+//    insertCoin(game.board, 2, 1);
+//    insertCoin(game.board, 1, 2);
 //    insertCoin(game.board, 1, 2);
 //    insertCoin(game.board, 1, 1);
-//    insertCoin(game.board, 1, 1);
-//    insertCoin(game.board, 1, 1);
-//    insertCoin(game.board, 1, 1);
 //    insertCoin(game.board, 1, 2);
-//
-    displayBoard(board, 3);
-//
-//    if (checkWinConditions(&game)) {
+//    insertCoin(game.board, 1, 2);
+//    insertCoin(game.board, 1, 2);
+
+    displayBoard(game.board, 6);
+
+    if (checkWinConditions(&game)) {
+        printf("WINNER");
+    }
+
+//    if (checkDiagonalWinConditionNeg(&game)) {
 //        printf("WINNER");
 //    }
 
@@ -68,8 +109,6 @@ int main(int argc, char **argv)
 //    newEntry(log, 2,2);
 //    newEntry(log, 4,1);
 //    newEntry(log, 2,1);
-
-    printf("\nWorking...");
 
     return 0;
 }

@@ -69,7 +69,7 @@ void moveController(Game* game){
 }
 
 int checkWinConditions(Game* game){
-    if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game)) {
+    if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game) || checkDiagonalWinConditionNeg(game) || checkDiagonalWinConditionPos(game)) {
         return 1;
     }
     return 0;
@@ -176,26 +176,139 @@ int checkHorizontalWinCondition(Game* game){
 
 }
 
-//struct Position* createBoard(int row, int column, int numberOfColumns, int numberOfRows){
-//
-//    count++;
-//
-//    // Ensure current row or column is not outwith board size.
-//    if (row  > numberOfColumns - 1 || column > numberOfRows - 1)
-//        return NULL;
-//
-//    valid++;
-//
-//    struct Position *temp;
-//
-//    temp = (struct Position *) malloc(sizeof(struct Position));
-//    //temp->takenBy = 0;
-//    temp->takenBy = 0;
-//    temp->valid = true;
-//    temp->right = createBoard(row+1, column, numberOfColumns, numberOfRows);
-//    temp->down = createBoard(row, column+1, numberOfColumns, numberOfRows);
-//    return temp;
-//};
+int checkDiagonalWinConditionNeg(Game* game){
+
+// Initialise pointer and column pointer to first position on the game board
+    struct Position *pointer = game->board, *columnPointer = game->board;
+
+    // Loop through each of the Columns of the game board
+    for (int colCounter = 0; colCounter <= game->columnSize; colCounter++) {
+
+        // Set consecutive counters to zero
+        int cons1 = 0, cons2 = 0;
+
+        // Loop through each of the rows (ie down the column)
+        for (int rowCounter = 0; rowCounter <= game->rowSize-1; rowCounter++) {
+
+            struct Position* tmpPointer = pointer;
+            // Check for Null pointer
+            while (tmpPointer!=NULL) {
+
+                // Skip other checks if position has not been taken by a player
+                if (tmpPointer->takenBy == 0) {break;}
+
+                    // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
+                else if (tmpPointer->takenBy == 1) {
+                    cons1++;
+                    cons2 = 0;
+                    // Check if found four consecutive 1's
+                    if (cons1 >= 4){game->winner = 1; return 1;}
+                } else {
+                    // Else position must be taken by player 2, reset player1's consecutive position counter, and add to player 2's
+                    cons2++;
+                    cons1 = 0;
+                    // Check if found four consecutive 2's
+                    if (cons2 >= 4){game->winner = 2; return 1;}
+                }
+                // Move pointer down the board
+                if (tmpPointer->down!=NULL && tmpPointer->right!=NULL) {
+                    tmpPointer = tmpPointer->down->right;
+                } else {
+                    break;
+                }
+
+            }
+            cons1 = cons2 = 0;
+            if (pointer!=NULL) {
+                pointer = pointer->down;
+            } else {
+                break;
+            }
+        }
+
+        // See if there is another column to be checked, if move column pointer to new column, set pointer to same position
+        if (columnPointer->right != NULL) {
+            columnPointer = columnPointer->right;
+            pointer = columnPointer;
+        }
+    }
+
+    // Vertical win condition not met, return false
+    return 0;
+}
+
+int checkDiagonalWinConditionPos(Game* game){
+
+// Initialise pointer and column pointer to first position on the game board
+    struct Position *pointer = game->board, *columnPointer = game->board;
+
+    // Move pointer to bottom of column
+    while( pointer->down != NULL){
+        pointer = pointer->down;
+    }
+
+    // Loop through each of the Columns of the game board
+    for (int colCounter = 0; colCounter <= game->columnSize; colCounter++) {
+
+        // Set consecutive counters to zero
+        int cons1 = 0, cons2 = 0;
+
+        // Loop through each of the rows (ie down the column)
+        for (int rowCounter = 0; rowCounter <= game->rowSize-1; rowCounter++) {
+
+            struct Position* tmpPointer = pointer;
+            // Check for Null pointer
+            while (tmpPointer!=NULL) {
+
+                // Skip other checks if position has not been taken by a player
+                if (tmpPointer->takenBy == 0) {break;}
+
+                    // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
+                else if (tmpPointer->takenBy == 1) {
+                    cons1++;
+                    cons2 = 0;
+                    // Check if found four consecutive 1's
+                    if (cons1 >= 4){game->winner = 1; return 1;}
+                } else {
+                    // Else position must be taken by player 2, reset player1's consecutive position counter, and add to player 2's
+                    cons2++;
+                    cons1 = 0;
+                    // Check if found four consecutive 2's
+                    if (cons2 >= 4){game->winner = 2; return 1;}
+                }
+                // Move pointer down the board
+                if (tmpPointer->up!=NULL && tmpPointer->right!=NULL) {
+                    tmpPointer = tmpPointer->up->right;
+                } else {
+                    break;
+                }
+
+            }
+            cons1 = cons2 = 0;
+            if (pointer!=NULL) {
+                pointer = pointer->up;
+            } else {
+                break;
+            }
+        }
+
+        // See if there is another column to be checked, if move column pointer to new column, set pointer to same position
+        if (columnPointer->right != NULL) {
+
+            //Move to next column
+            columnPointer = columnPointer->right;
+            pointer = columnPointer;
+
+            // Move pointer to bottom of column
+            while( pointer->down != NULL){pointer = pointer->down;}
+
+        }
+    }
+
+    // Vertical win condition not met, return false
+    return 0;
+}
+
 
 struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
     if (log!=NULL) {

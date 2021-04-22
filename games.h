@@ -48,9 +48,10 @@ void insertCoin(struct Position* board, int column, int player);
 int checkWinConditions(Game* game);
 int checkVerticalWinCondition(Game* game);
 int checkHorizontalWinCondition(Game* game);
+int checkDiagonalWinConditionNeg(Game* game);
+int checkDiagonalWinConditionPos(Game* game);
 void gameController();
 void player1Move(),player2Move();
-void checkDown(),checkRight(),checkDiagonal();
 void gravityMove(); //Animate dropping?
 
 void linkUpLeft(struct Position* board, int row, int column);
