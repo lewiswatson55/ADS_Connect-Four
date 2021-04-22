@@ -191,10 +191,11 @@ int checkDiagonalWinConditionNeg(Game* game){
         for (int rowCounter = 0; rowCounter <= game->rowSize-1; rowCounter++) {
 
             struct Position* tmpPointer = pointer;
-            // Check for Null pointer
+
+            // Loop while tmpPointer is not Null
             while (tmpPointer!=NULL) {
 
-                // Skip other checks if position has not been taken by a player
+                // Skip other checks (and break loop) if position has not been taken by a player
                 if (tmpPointer->takenBy == 0) {break;}
 
                     // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
@@ -210,7 +211,7 @@ int checkDiagonalWinConditionNeg(Game* game){
                     // Check if found four consecutive 2's
                     if (cons2 >= 4){game->winner = 2; return 1;}
                 }
-                // Move pointer down the board
+                // Move pointer diagonally down the board
                 if (tmpPointer->down!=NULL && tmpPointer->right!=NULL) {
                     tmpPointer = tmpPointer->down->right;
                 } else {
@@ -218,7 +219,9 @@ int checkDiagonalWinConditionNeg(Game* game){
                 }
 
             }
+            // Reset consecutive 1 and 2's as next position has been reached
             cons1 = cons2 = 0;
+            // Check pointer is not null else break loop
             if (pointer!=NULL) {
                 pointer = pointer->down;
             } else {
@@ -233,7 +236,7 @@ int checkDiagonalWinConditionNeg(Game* game){
         }
     }
 
-    // Vertical win condition not met, return false
+    // Negative Horizontal win condition not met, return false
     return 0;
 }
 
