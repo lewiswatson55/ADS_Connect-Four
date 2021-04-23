@@ -34,12 +34,12 @@ void testVerticalWin() {
             .gameType = 0
     };
 
-    insertCoin(game, 1, 2);
-    insertCoin(game, 1, 1);
-    insertCoin(game, 1, 1);
-    insertCoin(game, 1, 1);
-    insertCoin(game, 1, 1);
-    insertCoin(game, 1, 2);
+    insertCoin(*game, 1, 2);
+    insertCoin(*game, 1, 1);
+    insertCoin(*game, 1, 1);
+    insertCoin(*game, 1, 1);
+    insertCoin(*game, 1, 1);
+    insertCoin(*game, 1, 2);
 
     displayBoard(game.board, 6);
 
@@ -61,14 +61,14 @@ void testHorizontalGameWin() {
             .gameType = 0
     };
 
-    insertCoin(game, 1, 2);
-    insertCoin(game, 2, 1);
-    insertCoin(game, 3, 1);
-    insertCoin(game, 4, 1);
-    insertCoin(game, 5, 1);
-    insertCoin(game, 6, 2);
+    insertCoin(*game, 1, 2);
+    insertCoin(*game, 2, 1);
+    insertCoin(*game, 3, 1);
+    insertCoin(*game, 4, 1);
+    insertCoin(*game, 5, 1);
+    insertCoin(*game, 6, 2);
 
-    displayBoard(game.board, 6);
+    displayBoard(*game.board, 6);
 
     if (checkWinConditions(&game)) {
         printf("\nHorizontal WINNER");
