@@ -2,6 +2,7 @@
 
 #define LINE_LENGTH 1000
 #define NAME_SIZE 25
+#define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
 
 //Game Header File
 #include "games.h"
@@ -10,7 +11,8 @@
 char menuSelection;
 
 void startGame();
-void loadLog();
+void loadLog(char line[LINE_LENGTH]);
+void loadGames();
 void otherOption();
 
 void menu(){
@@ -138,7 +140,7 @@ int main(int argc, char **argv)
 //    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
 
-    loadLog();
+    loadGames();
 
     return 0;
 }
@@ -151,9 +153,62 @@ void otherOption(){
     printf("\nOther Option\n");
 }
 
-void loadLog() {
+void loadGames(){
 
-    char line[LINE_LENGTH];
+    // File Pointer
+    FILE *fptr, *fptr2;
+    fptr = fopen(GAMEDATAFILE, "r");
+    fptr2 = fopen(GAMEDATAFILE, "r");
+    char line[LINE_LENGTH], line2[LINE_LENGTH];
+    int gamesCount = 0;
+    char* gameName = "";
+
+    printf("\nPlease select which of the saved games you would like to replay...\n\nAvailable Games:\n");
+
+    while(fgets(line,LINE_LENGTH,fptr) != NULL) {
+
+        gamesCount++;
+        gameName[0] = '\0';
+
+        for (int i = 0; i < strlen(line); i++) {
+            while (line[i] != ';') {
+                sprintf(gameName,"%s%c",gameName,line[i]);
+                break;
+            }
+            if (line[i]==';'){break;}
+        }
+
+        printf("Game %d. %s\n",gamesCount, gameName);
+
+    }
+
+    if (gamesCount!=0){
+        // Load Selected Line
+        int gameLoadChoice = 0;
+        int lineCounter = 0;
+
+        // Show Game List Menu and get Choice
+        scanf("%d",&gameLoadChoice);
+
+        while(fgets(line,LINE_LENGTH,fptr2) != NULL) {
+
+
+            if(isInRange(1,gamesCount,gameLoadChoice)) {
+                lineCounter++;
+                if (lineCounter==gameLoadChoice){loadLog(line); break;}
+            } else {printf("Invalid choice!! Try again..."); loadGames(); return;}
+        }
+    } else {
+        // No games in game data file...
+        printf("No games were found... Returning to Main Menu!");
+    }
+
+
+
+}
+
+void loadLog(char line[LINE_LENGTH]) {
+
     int *columnSize, *rowSize;
     char *player1, *player2;
     int playerCount = 0, fileCount = 0;
@@ -161,32 +216,25 @@ void loadLog() {
 
     player1 = player2 = NULL;
 
-    // File Pointer
-    FILE *fptr;
-    fptr = fopen("C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt", "r");
 
-    //printf("%s", fgets(line,LINE_LENGTH,fptr));
-    while(fgets(line,LINE_LENGTH,fptr) != NULL){
-
-        //Split line into parts, loop until part variable (p) is null
-        for (char *p = strtok(line,";"); p != NULL; p = strtok(NULL, ";"))
-        {
-            if (fileCount==1){char *ptr; int i = strtol(p, &ptr, 10); columnSize = &i;}
-            else if (fileCount==2){char *ptr; int i = strtol(p, &ptr, 10); rowSize = &i;}
-            else if (fileCount==3){
-                player1 = p;
-            } else if (fileCount == 4){player2 = p;}
-            else if (fileCount==5) {
-                int pTurn = 1;
-                for (char *c = strtok(p,","); c != NULL; c = strtok(NULL, ",")) {
-                    char *ptr; int i = strtol(c, &ptr, 10);
-                    newEntry(log,i,pTurn);
-                    if(pTurn==1){pTurn=2;}else{pTurn=1;}
-                }
+    //Split line into parts, loop until part variable (p) is null
+    for (char *p = strtok(line,";"); p != NULL; p = strtok(NULL, ";"))
+    {
+        if (fileCount==1){char *ptr; int i = strtol(p, &ptr, 10); columnSize = &i;}
+        else if (fileCount==2){char *ptr; int i = strtol(p, &ptr, 10); rowSize = &i;}
+        else if (fileCount==3){
+            player1 = p;
+        } else if (fileCount == 4){player2 = p;}
+        else if (fileCount==5) {
+            int pTurn = 1;
+            for (char *c = strtok(p,","); c != NULL; c = strtok(NULL, ",")) {
+                char *ptr; int i = strtol(c, &ptr, 10);
+                newEntry(log,i,pTurn);
+                if(pTurn==1){pTurn=2;}else{pTurn=1;}
             }
-            //printf("%s\n", p);
-            fileCount++;
         }
+        //printf("%s\n", p);
+        fileCount++;
     }
 
     printf("\n\nPlayer 1: %s\nPlayer 2: %s\nColumn:Row: %d:%d\nLog: Maybe?",player1,player2,*columnSize,*rowSize);
