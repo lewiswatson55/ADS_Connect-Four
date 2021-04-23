@@ -106,9 +106,9 @@ int main(int argc, char **argv)
 
 //    displayBoard(game.board, 6);
 //
-//    if (checkWinConditions(&game)) {
-//        printf("WINNER");
-//    }
+    if (checkWinConditions(&game)) {
+        printf("WINNER");
+    }
 
 //    if (checkDiagonalWinConditionNeg(&game)) {
 //        printf("WINNER");

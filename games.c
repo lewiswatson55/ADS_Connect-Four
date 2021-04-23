@@ -71,6 +71,241 @@ void moveController(Game* game){
 void analysisMode(Game* game){}
 
 
+// Create New Entry Structure
+struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
+    if (log!=NULL) {
+
+        while (log->next!=NULL){
+            log = log->next;
+        }
+        struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
+        entry->prev = log;
+        entry->next = NULL;
+        entry->move = move;
+        entry->pTurn = pTurn;
+
+        log->next = entry;
+
+    } else {
+        // Only to be ran when initialising a new log
+        struct Entry* log = (struct Entry *) malloc(sizeof(struct Entry));
+        log->prev = NULL;
+        log->next = NULL;
+        log->move = move;
+        log->pTurn = pTurn;
+        return log;
+    }
+
+    return log;
+}
+// Expected input is game struct with names, and populated log property
+void reconstructBoard(Game* game) {
+
+    // Initialise temp variables
+    struct Entry* log = game->log;
+    struct Position* board = constructLinkedMatrix(game->rowSize, game->columnSize);
+
+    // Check log is a valid board
+    if (log != NULL){
+
+        // Move to next log entry
+        log = log->next;
+
+        // While other entries valid insert coins
+        while (log != NULL) {
+            reinsertCoin(board, log->move, log->pTurn);
+            log = log->next;
+        }
+
+        // Update game board in game structure
+        game->board = board;
+
+    } else {printf("Cannot reconstruct game board as log is empty!");}
+}
+// Special copy of insertCoin function with no log update and takes board input rather than game
+void reinsertCoin(struct Position* board, int column, int player){
+
+    //Move 'right' to the correct column
+    for (int counter=0; counter<column-1; counter++){
+        board = board->right;
+    }
+
+    // While not at bottom of grid
+    while(board->down!=NULL && board->down->takenBy==0) {
+        board = board->down;
+    }
+    board->takenBy = player;
+
+}
+
+//Initialises a position to default values
+struct Position* initPosition(){
+    struct Position* pos = (struct Position *) malloc(sizeof(struct Position));
+    pos->valid = false;
+    pos->right = NULL;
+    pos->down = NULL;
+    pos->left = NULL;
+    pos->up = NULL;
+    pos->takenBy = 0;
+    return pos;
+}
+
+// Functions for creating board matrix
+struct Position* constructLinkedMatrix(int row, int column) {
+
+    struct Position* head[MAX_GRID_SIZE];
+    struct Position *mainHead;
+    struct Position *rightTemp, *tmpHead, *newPtr;
+
+    mainHead = NULL;
+    tmpHead = initPosition();
+    newPtr = initPosition();
+    rightTemp = initPosition();
+
+    //Set New Ptr to blank Position
+    newPtr->valid = true;
+    newPtr->takenBy = 0;
+
+    for(int i=0; i<row; i++){
+
+        head[i] = NULL;
+
+        //J not used as just for the looping count (could be used if populating from 2d array ie arr[i][j])
+        for(int j=0; j<column; j++){
+
+            tmpHead->takenBy = 0;
+            tmpHead->valid = false;
+            newPtr = initPosition();
+
+            //Initialise Main head Variable with tmpHead variable
+            if (!mainHead) {
+                mainHead = newPtr;
+            }
+
+            //if head i not valid, initialise
+            if (!head[i]) {
+                head[i] = newPtr;
+            } else {
+                  // if initialised, position is along column so
+                  rightTemp->right = newPtr;
+            }
+            rightTemp = newPtr;
+        }
+    }
+
+    //Set Links for down
+    for (int i=0; i<row-1;i++) {
+
+        struct Position* temp1 = head[i], *temp2 = head[i+1];
+        while(temp1 && temp2){
+            temp1->down = temp2;
+            temp1 = temp1->right;
+            temp2 = temp2->right;
+        }
+    }
+
+    // Link Up and Left Pointers
+    linkUpLeft(mainHead, row, column);
+
+    return mainHead;
+}
+void linkUpLeft(struct Position* board, int row, int column){
+
+    struct Position *pointer, *rowPointer, *colPointer;
+    pointer = board;
+    colPointer = board;
+    rowPointer = board;
+
+    // Loop through each column
+    for (int colCounter = 0; colCounter <= column; colCounter++) {
+
+        //pointer = colPointer;
+
+        // Loop Through each row of current column
+        for (int rowCounter = 0; rowCounter <= row; rowCounter++) {
+            // Set Pointer to the rowPointer
+            pointer = rowPointer;
+
+            // if pointer's down is not null,
+            if (pointer->down != NULL) {
+                pointer->down->up = pointer;
+            }
+
+            if (pointer->right != NULL) {
+                pointer->right->left = pointer;
+            }
+
+            if (rowPointer->down != NULL) {rowPointer = rowPointer->down;}
+        }
+        if (colPointer->right != NULL) {rowPointer = colPointer->right; colPointer = colPointer->right;}
+    }
+}
+
+void displayBoard(struct Position* board, int width)
+{
+    // Clear Screen
+    //system("cls");
+
+    // Create Row Pointer
+    struct Position* row;
+
+    // Create Column Pointer
+    struct Position* column = board;
+
+    // UI: Display Column Labels
+    printf("  ");
+    for (int i = 1; i<=width; i++) {printf("  %d   ",i);}
+    printf("\n");
+
+    // Loop until current column is NULL
+    while (column != NULL) {
+        row = column;
+
+        // UI: Side of Board
+        printf("||");
+
+        // loop till node->right is not NULL
+        while (row != NULL) {
+            printf("  %d  |", row->takenBy);
+            row = row->right;
+        }
+        printf("|\n");
+        column = column->down;
+    }
+}
+void insertCoin(Game* game, int column, int player){
+
+    struct Position* board = game->board;
+
+    //Move 'right' to the correct column
+    for (int counter=0; counter<column-1; counter++){
+        board = board->right;
+    }
+
+    // While not at bottom of grid
+    while(board->down!=NULL && board->down->takenBy==0) {
+        board = board->down;
+    }
+    board->takenBy = player;
+
+    // Add move to game log
+    newEntry(game->log, column, player);
+}
+
+//Method to perform a deep copy of a position
+struct Position* deepCopyPosition(struct Position* to, struct Position* from){
+    if (from!=NULL && to!=NULL) {
+        to->valid = from->valid;
+        to->right = from->right;
+        to->down = from->down;
+        to->takenBy = from->takenBy;
+        return to;
+    }
+    //If null passed in on either to or from, just create new position with default values.
+    struct Position* other = initPosition();
+    return other;
+}
+
 // All Win Conditions
 int checkWinConditions(Game* game){
     if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game) || checkDiagonalWinConditionNeg(game) || checkDiagonalWinConditionPos(game)) {
@@ -98,7 +333,7 @@ int checkVerticalWinCondition(Game* game){
                 // Skip other checks if position has not been taken by a player
                 if (pointer->takenBy == 0) {}
 
-                // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
+                    // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
                 else if (pointer->takenBy == 1) {
                     cons1++;
                     cons2 = 0;
@@ -312,242 +547,4 @@ int checkDiagonalWinConditionPos(Game* game){
 
     // Positive Horizontal win condition not met, return false
     return 0;
-}
-
-
-struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
-    if (log!=NULL) {
-
-        while (log->next!=NULL){
-            log = log->next;
-        }
-        struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
-        entry->prev = log;
-        entry->next = NULL;
-        entry->move = move;
-        entry->pTurn = pTurn;
-
-        log->next = entry;
-
-    } else {
-        // Only to be ran when initialising a new log
-        struct Entry* log = (struct Entry *) malloc(sizeof(struct Entry));
-        log->prev = NULL;
-        log->next = NULL;
-        log->move = move;
-        log->pTurn = pTurn;
-        return log;
-    }
-
-    return log;
-}
-
-// Expected input is game struct with names, and populated log property
-void reconstructBoard(Game* game) {
-
-    // Initialise temp variables
-    struct Entry* log = game->log;
-    struct Position* board = constructLinkedMatrix(game->rowSize, game->columnSize);
-
-    // Check log is a valid board
-    if (log != NULL){
-
-        // Move to next log entry
-        log = log->next;
-
-        // While other entries valid insert coins
-        while (log != NULL) {
-            reinsertCoin(board, log->move, log->pTurn);
-            log = log->next;
-        }
-
-        // Update game board in game structure
-        game->board = board;
-
-    } else {printf("Cannot reconstruct game board as log is empty!");}
-}
-
-// Special copy of insertCoin function with no log update and takes board input rather than game
-void reinsertCoin(struct Position* board, int column, int player){
-
-    //Move 'right' to the correct column
-    for (int counter=0; counter<column-1; counter++){
-        board = board->right;
-    }
-
-    // While not at bottom of grid
-    while(board->down!=NULL && board->down->takenBy==0) {
-        board = board->down;
-    }
-    board->takenBy = player;
-
-}
-
-//Initialises a position to default values
-struct Position* initPosition(){
-    struct Position* pos = (struct Position *) malloc(sizeof(struct Position));
-    pos->valid = false;
-    pos->right = NULL;
-    pos->down = NULL;
-    pos->left = NULL;
-    pos->up = NULL;
-    pos->takenBy = 0;
-    return pos;
-}
-
-//Method to perform a deep copy of a position
-struct Position* deepCopyPosition(struct Position* to, struct Position* from){
-    if (from!=NULL && to!=NULL) {
-        to->valid = from->valid;
-        to->right = from->right;
-        to->down = from->down;
-        to->takenBy = from->takenBy;
-        return to;
-    }
-    //If null passed in on either to or from, just create new position with default values.
-    struct Position* other = initPosition();
-    return other;
-}
-
-struct Position* constructLinkedMatrix(int row, int column) {
-
-    struct Position* head[MAX_GRID_SIZE];
-    struct Position *mainHead;
-    struct Position *rightTemp, *tmpHead, *newPtr;
-
-    mainHead = NULL;
-    tmpHead = initPosition();
-    newPtr = initPosition();
-    rightTemp = initPosition();
-
-    //Set New Ptr to blank Position
-    newPtr->valid = true;
-    newPtr->takenBy = 0;
-
-    for(int i=0; i<row; i++){
-
-        head[i] = NULL;
-
-        //J not used as just for the looping count (could be used if populating from 2d array ie arr[i][j])
-        for(int j=0; j<column; j++){
-
-            tmpHead->takenBy = 0;
-            tmpHead->valid = false;
-            newPtr = initPosition();
-
-            //Initialise Main head Variable with tmpHead variable
-            if (!mainHead) {
-                mainHead = newPtr;
-            }
-
-            //if head i not valid, initialise
-            if (!head[i]) {
-                head[i] = newPtr;
-            } else {
-                  // if initialised, position is along column so
-                  rightTemp->right = newPtr;
-            }
-            rightTemp = newPtr;
-        }
-    }
-
-    //Set Links for down
-    for (int i=0; i<row-1;i++) {
-
-        struct Position* temp1 = head[i], *temp2 = head[i+1];
-        while(temp1 && temp2){
-            temp1->down = temp2;
-            temp1 = temp1->right;
-            temp2 = temp2->right;
-        }
-    }
-
-    // Link Up and Left Pointers
-    linkUpLeft(mainHead, row, column);
-
-    return mainHead;
-}
-
-void linkUpLeft(struct Position* board, int row, int column){
-
-    struct Position *pointer, *rowPointer, *colPointer;
-    pointer = board;
-    colPointer = board;
-    rowPointer = board;
-
-    // Loop through each column
-    for (int colCounter = 0; colCounter <= column; colCounter++) {
-
-        //pointer = colPointer;
-
-        // Loop Through each row of current column
-        for (int rowCounter = 0; rowCounter <= row; rowCounter++) {
-            // Set Pointer to the rowPointer
-            pointer = rowPointer;
-
-            // if pointer's down is not null,
-            if (pointer->down != NULL) {
-                pointer->down->up = pointer;
-            }
-
-            if (pointer->right != NULL) {
-                pointer->right->left = pointer;
-            }
-
-            if (rowPointer->down != NULL) {rowPointer = rowPointer->down;}
-        }
-        if (colPointer->right != NULL) {rowPointer = colPointer->right; colPointer = colPointer->right;}
-    }
-}
-
-void insertCoin(Game* game, int column, int player){
-
-    struct Position* board = game->board;
-
-    //Move 'right' to the correct column
-    for (int counter=0; counter<column-1; counter++){
-        board = board->right;
-    }
-
-    // While not at bottom of grid
-    while(board->down!=NULL && board->down->takenBy==0) {
-        board = board->down;
-    }
-    board->takenBy = player;
-
-    // Add move to game log
-    newEntry(game->log, column, player);
-}
-
-void displayBoard(struct Position* board, int width)
-{
-    // Clear Screen
-    //system("cls");
-
-    // Create Row Pointer
-    struct Position* row;
-
-    // Create Column Pointer
-    struct Position* column = board;
-
-    // UI: Display Column Labels
-    printf("  ");
-    for (int i = 1; i<=width; i++) {printf("  %d   ",i);}
-    printf("\n");
-
-    // Loop until current column is NULL
-    while (column != NULL) {
-        row = column;
-
-        // UI: Side of Board
-        printf("||");
-
-        // loop till node->right is not NULL
-        while (row != NULL) {
-            printf("  %d  |", row->takenBy);
-            row = row->right;
-        }
-        printf("|\n");
-        column = column->down;
-    }
 }
