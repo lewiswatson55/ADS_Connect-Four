@@ -75,14 +75,13 @@ int moveController(Game* game){
 
 int analysisMode(Game* game){
 
-    int exited = 1;
-
+    // Initialise local variables
     struct Entry* log = game->log;
     struct Entry* logCount = log;
     int noOfSteps = 0;
 
-    // Create Blank Board
-    struct Position* board;// = constructLinkedMatrix(game->rowSize, game->columnSize);
+    // Create Board Struct
+    struct Position* board;
 
     //Count number of entries in the log
     while(logCount->next!=NULL) {
@@ -90,15 +89,11 @@ int analysisMode(Game* game){
         logCount = logCount->next;
     }
 
-    // Initialise step counter
-    int stepCounter = game->step;
-
     // Loop through all steps in log
-    //for (stepCounter; stepCounter<=noOfSteps; stepCounter++) {
-    while(exited) {
+    while(1) {
 
         log = game->log;
-        stepCounter = game->step;
+        int stepCounter = game->step;
         board = constructLinkedMatrix(game->rowSize, game->columnSize);
 
         // Reconstruct board positions at step
@@ -109,14 +104,16 @@ int analysisMode(Game* game){
             }
         }
 
+        // Pretty Analysis Mode Ascii Text
         printf("\n  ___                   ___  \n"
                " (o o)                 (o o) \n"
                "(  V  ) Analysis Mode (  V  )\n"
                "--m-m-------------------m-m--\n\n");
 
+        // Show Current Board
         displayBoard(board, game->columnSize);
 
-        // Show Analysis Menu
+        // Show Analysis Menu and get Choice
         printf("\nAnalysis Menu:\n0. Continue from this point\n1. Undo Move\n2. Redo Next Move\n\nOption: ");
         int analysisMenu;
         scanf("%d",&analysisMenu);
@@ -124,14 +121,16 @@ int analysisMode(Game* game){
          //If Undo Move Option
         if(analysisMenu == 1 && !(game->step-1 < 0)){
             game->step--;
-            //stepCounter--;
-        } else if (analysisMenu == 2 && !(game->step+1 > noOfSteps)){
+        } else if (analysisMenu == 2 && !(game->step+1 > noOfSteps)) {  // Redo move option
             game->step++;
-        } else if (analysisMenu == 0) {
+        } else if (analysisMenu == 0) { // Continue from here Option
+            // Update game structs board
             game->board = board;
+            //Go back to moveController i.e resume the game
             moveController(game);
             return 0;
         } else {
+            // Catch when user selects invalid analysis menu option
             printf("\n !! You have reached the start and/or end of the current logged game !!");
         }
 
