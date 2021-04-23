@@ -21,7 +21,8 @@ void newGame(char *player1, char *player2, int columns, int rows){
             .board = constructLinkedMatrix(rows, columns),
             .pTurn = 1,
             .log = newEntry(NULL, 0, 0),
-            .gameType = 0
+            .gameType = 0,
+            .step = 0
     };
 
     moveController(&game);
@@ -38,7 +39,7 @@ void togglePlayer(Game* game) {
 }
 
 // Plan for un/redo would be check user input over 100 and user 101 102... as other options.
-void moveController(Game* game){
+int moveController(Game* game){
 
     char *currentPlayer;
 
@@ -54,6 +55,8 @@ void moveController(Game* game){
         int selection;
         scanf("%d",&selection);
 
+        if(selection == 101) {analysisMode(game); return 0;}
+
         insertCoin(game, selection, game->pTurn);
         togglePlayer(game);
     }
@@ -66,9 +69,74 @@ void moveController(Game* game){
     if (game->winner == 1) {winner = game->name1;} else {winner = game->name2;}
 
     printf("Congratulations to %s for winning!", winner);
+
+    return 0;
 }
 
-void analysisMode(Game* game){}
+int analysisMode(Game* game){
+
+    int exited = 1;
+
+    struct Entry* log = game->log;
+    struct Entry* logCount = log;
+    int noOfSteps = 0;
+
+    // Create Blank Board
+    struct Position* board;// = constructLinkedMatrix(game->rowSize, game->columnSize);
+
+    //Count number of entries in the log
+    while(logCount->next!=NULL) {
+        noOfSteps++;
+        logCount = logCount->next;
+    }
+
+    // Initialise step counter
+    int stepCounter = game->step;
+
+    // Loop through all steps in log
+    //for (stepCounter; stepCounter<=noOfSteps; stepCounter++) {
+    while(exited) {
+
+        log = game->log;
+        stepCounter = game->step;
+        board = constructLinkedMatrix(game->rowSize, game->columnSize);
+
+        // Reconstruct board positions at step
+        for (int i=0; i<stepCounter+1; i++) {
+            if (log!=NULL) {
+                reinsertCoin(board, log->move, log->pTurn);
+                log = log->next;
+            }
+        }
+
+        printf("\n  ___                   ___  \n"
+               " (o o)                 (o o) \n"
+               "(  V  ) Analysis Mode (  V  )\n"
+               "--m-m-------------------m-m--\n\n");
+
+        displayBoard(board, game->columnSize);
+
+        // Show Analysis Menu
+        printf("\nAnalysis Menu:\n0. Continue from this point\n1. Undo Move\n2. Redo Next Move\n\nOption: ");
+        int analysisMenu;
+        scanf("%d",&analysisMenu);
+
+         //If Undo Move Option
+        if(analysisMenu == 1){
+            game->step--;
+            //stepCounter--;
+        } else if (analysisMenu == 2){
+            game->step++;
+        } else if (analysisMenu == 0) {
+            exited = 0;
+            game->board = board;
+            moveController(game);
+            return 0;
+        }
+
+    }
+    return 0;
+}
 
 
 // Create New Entry Structure
@@ -290,6 +358,7 @@ void insertCoin(Game* game, int column, int player){
 
     // Add move to game log
     newEntry(game->log, column, player);
+    game->step++;
 }
 
 //Method to perform a deep copy of a position

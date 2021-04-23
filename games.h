@@ -18,6 +18,7 @@ typedef struct {
     struct Entry *log;
     int pTurn;
     int winner;
+    int step;
 } Game;
 
 // Log Entry
@@ -43,7 +44,7 @@ struct Position* createBoard(int column, int row, int numberOfColumns, int numbe
 struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
-void moveController(Game* game);
+int moveController(Game* game);
 void insertCoin(Game* game, int column, int player);
 int checkWinConditions(Game* game);
 int checkVerticalWinCondition(Game* game);
@@ -55,6 +56,8 @@ void player1Move(),player2Move();
 void gravityMove(); //Animate dropping?
 
 void linkUpLeft(struct Position* board, int row, int column);
+
+int analysisMode(Game* game);
 
 struct Position* constructLinkedMatrix(int row, int column);
 void reconstructBoard(Game* game);

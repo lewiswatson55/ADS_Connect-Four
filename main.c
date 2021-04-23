@@ -42,8 +42,8 @@ int main(int argc, char **argv)
     //struct Position *board = constructLinkedMatrix(10,10);
 
     struct Entry* loggyboi = newEntry(NULL, 0, 0);
-    newEntry(loggyboi, 1, 1);
-    newEntry(loggyboi, 1, 2);
+//    newEntry(loggyboi, 1, 1);
+//    newEntry(loggyboi, 1, 2);
 
     //Create Game Struct
     Game game = {
@@ -54,13 +54,22 @@ int main(int argc, char **argv)
             .board = constructLinkedMatrix(7, 6),
             .pTurn = 1,
             .log = loggyboi,
-            .gameType = 0
+            .gameType = 0,
+            .step = 0
+
     };
 
+    insertCoin(&game, 6, 2);
+    insertCoin(&game, 6, 2);
+    insertCoin(&game, 4, 1);
+    insertCoin(&game, 3, 1);
+
+    analysisMode(&game);
+
     //reinsertCoin(game.board, 1, 2);
-    displayBoard(game.board,6);
-    reconstructBoard(&game);
-    displayBoard(game.board,6);
+//    displayBoard(game.board,6);
+//    reconstructBoard(&game);
+//    displayBoard(game.board,6);
 //    insertCoin(&game, 2, 2);
 //    insertCoin(&game, 2, 1);
 //    insertCoin(&game, 3, 1);
@@ -106,9 +115,9 @@ int main(int argc, char **argv)
 
 //    displayBoard(game.board, 6);
 //
-    if (checkWinConditions(&game)) {
-        printf("WINNER");
-    }
+//    if (checkWinConditions(&game)) {
+//        printf("WINNER");
+//    }
 
 //    if (checkDiagonalWinConditionNeg(&game)) {
 //        printf("WINNER");
