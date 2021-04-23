@@ -122,8 +122,12 @@ int analysisMode(Game* game){
          //If Undo Move Option
         if(analysisMenu == 1 && !(game->step-1 < 0)){
             game->step--;
+            if (game->pTurn==1) {game->pTurn=2;}
+            else if (game->pTurn==2) {game->pTurn=1;}
         } else if (analysisMenu == 2 && !(game->step+1 > noOfSteps)) {  // Redo move option
             game->step++;
+            if (game->pTurn==1) {game->pTurn=2;}
+            else if (game->pTurn==2) {game->pTurn=1;}
         } else if (analysisMenu == 0) { // Continue from here Option
             // Update game structs board
             game->board = board;
@@ -618,7 +622,6 @@ int checkDiagonalWinConditionPos(Game* game){
 }
 
 // Validation
-
 bool isInRange(int lowerLimit, int upperLimit, int no)
 {
     return (lowerLimit <= no && no <= upperLimit);
