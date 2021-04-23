@@ -1,7 +1,6 @@
 //
 // Game Board
 // Created by lewis on 12/04/2021.
-// https://www.geeksforgeeks.org/construct-linked-list-2d-matrix/
 //
 
 #include "games.h"
@@ -57,8 +56,10 @@ int moveController(Game* game){
 
         if(selection == 101) {analysisMode(game); return 0;}
 
-        insertCoin(game, selection, game->pTurn);
-        togglePlayer(game);
+        if (isInRange(1,game->columnSize,selection)){
+            insertCoin(game, selection, game->pTurn);
+            togglePlayer(game);
+        } else {printf("\n\nInvalid choice! Try Again!\t");}
     }
 
     char *winner;
@@ -136,7 +137,6 @@ int analysisMode(Game* game){
 
     }
 }
-
 
 // Create New Entry Structure
 struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
@@ -615,4 +615,11 @@ int checkDiagonalWinConditionPos(Game* game){
 
     // Positive Horizontal win condition not met, return false
     return 0;
+}
+
+// Validation
+
+bool isInRange(int lowerLimit, int upperLimit, int no)
+{
+    return (lowerLimit <= no && no <= upperLimit);
 }

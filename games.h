@@ -46,6 +46,7 @@ void newGame(char *player1, char *player2, int columns, int rows);
 void displayBoard(struct Position* board, int width);
 int moveController(Game* game);
 void insertCoin(Game* game, int column, int player);
+bool isInRange(int lowerLimit, int upperLimit, int no);
 int checkWinConditions(Game* game);
 int checkVerticalWinCondition(Game* game);
 int checkHorizontalWinCondition(Game* game);
