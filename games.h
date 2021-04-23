@@ -6,6 +6,7 @@
 #define ADSCOURSEWORK_GAMEBOARD_H
 
 #include <stdbool.h>
+#include <string.h>
 #define MAX_GRID_SIZE 10
 
 int count, valid;

@@ -1,11 +1,16 @@
 #include <stdio.h>
 
+#define LINE_LENGTH 1000
+#define NAME_SIZE 25
+
 //Game Header File
 #include "games.h"
+#include <stdlib.h>
 
 char menuSelection;
 
 void startGame();
+void loadLog();
 void otherOption();
 
 void menu(){
@@ -34,7 +39,7 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-    newGame("Lewis", "Kate", 7, 6);
+    //newGame("Lewis", "Kate", 7, 6);
 
 
 
@@ -133,6 +138,8 @@ int main(int argc, char **argv)
 //    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
 
+    loadLog();
+
     return 0;
 }
 
@@ -144,6 +151,44 @@ void otherOption(){
     printf("\nOther Option\n");
 }
 
-void testMethod(){
+void loadLog() {
 
+    char line[LINE_LENGTH];
+    int *columnSize, *rowSize;
+    char *player1, *player2;
+    int playerCount = 0, fileCount = 0;
+    struct Entry* log = newEntry(NULL,0,0);
+
+    player1 = player2 = NULL;
+
+    // File Pointer
+    FILE *fptr;
+    fptr = fopen("C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt", "r");
+
+    //printf("%s", fgets(line,LINE_LENGTH,fptr));
+    while(fgets(line,LINE_LENGTH,fptr) != NULL){
+
+        //Split line into parts, loop until part variable (p) is null
+        for (char *p = strtok(line,";"); p != NULL; p = strtok(NULL, ";"))
+        {
+            if (fileCount==1){char *ptr; int i = strtol(p, &ptr, 10); columnSize = &i;}
+            else if (fileCount==2){char *ptr; int i = strtol(p, &ptr, 10); rowSize = &i;}
+            else if (fileCount==3){
+                player1 = p;
+            } else if (fileCount == 4){player2 = p;}
+            else if (fileCount==5) {
+                int pTurn = 1;
+                for (char *c = strtok(p,","); c != NULL; c = strtok(NULL, ",")) {
+                    char *ptr; int i = strtol(c, &ptr, 10);
+                    newEntry(log,i,pTurn);
+                    if(pTurn==1){pTurn=2;}else{pTurn=1;}
+                }
+            }
+            //printf("%s\n", p);
+            fileCount++;
+        }
+    }
+
+    printf("\n\nPlayer 1: %s\nPlayer 2: %s\nColumn:Row: %d:%d\nLog: Maybe?",player1,player2,*columnSize,*rowSize);
+    //printf("\n\n%s",columnSize);
 }
