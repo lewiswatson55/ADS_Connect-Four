@@ -41,6 +41,10 @@ int main(int argc, char **argv)
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(10,10);
 
+    struct Entry* loggyboi = newEntry(NULL, 0, 0);
+    newEntry(loggyboi, 1, 1);
+    newEntry(loggyboi, 1, 2);
+
     //Create Game Struct
     Game game = {
             .name1 = "player1",
@@ -49,11 +53,14 @@ int main(int argc, char **argv)
             .columnSize = 6,
             .board = constructLinkedMatrix(7, 6),
             .pTurn = 1,
-            .log = newEntry(NULL, 0, 0),
+            .log = loggyboi,
             .gameType = 0
     };
 
-    insertCoin(&game, 1, 2);
+    //reinsertCoin(game.board, 1, 2);
+    displayBoard(game.board,6);
+    reconstructBoard(&game);
+    displayBoard(game.board,6);
 //    insertCoin(&game, 2, 2);
 //    insertCoin(&game, 2, 1);
 //    insertCoin(&game, 3, 1);

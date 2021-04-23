@@ -57,5 +57,7 @@ void gravityMove(); //Animate dropping?
 void linkUpLeft(struct Position* board, int row, int column);
 
 struct Position* constructLinkedMatrix(int row, int column);
+void reconstructBoard(Game* game);
+void reinsertCoin(struct Position* board, int column, int player);
 
 #endif //ADSCOURSEWORK_GAMEBOARD_H

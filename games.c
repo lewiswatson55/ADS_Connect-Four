@@ -68,13 +68,16 @@ void moveController(Game* game){
     printf("Congratulations to %s for winning!", winner);
 }
 
+void analysisMode(Game* game){}
+
+
+// All Win Conditions
 int checkWinConditions(Game* game){
     if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game) || checkDiagonalWinConditionNeg(game) || checkDiagonalWinConditionPos(game)) {
         return 1;
     }
     return 0;
 }
-
 int checkVerticalWinCondition(Game* game){
 
     // Initialise pointer and column pointer to first position on the game board
@@ -124,7 +127,6 @@ int checkVerticalWinCondition(Game* game){
     return 0;
 
 }
-
 int checkHorizontalWinCondition(Game* game){
 
     // Initialise pointer and row pointer to first position on the game board
@@ -175,7 +177,6 @@ int checkHorizontalWinCondition(Game* game){
     return 0;
 
 }
-
 int checkDiagonalWinConditionNeg(Game* game){
 
 // Initialise pointer and column pointer to first position on the game board
@@ -239,7 +240,6 @@ int checkDiagonalWinConditionNeg(Game* game){
     // Negative Horizontal win condition not met, return false
     return 0;
 }
-
 int checkDiagonalWinConditionPos(Game* game){
 
 // Initialise pointer and column pointer to first position on the game board
@@ -340,6 +340,47 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
     }
 
     return log;
+}
+
+// Expected input is game struct with names, and populated log property
+void reconstructBoard(Game* game) {
+
+    // Initialise temp variables
+    struct Entry* log = game->log;
+    struct Position* board = constructLinkedMatrix(game->rowSize, game->columnSize);
+
+    // Check log is a valid board
+    if (log != NULL){
+
+        // Move to next log entry
+        log = log->next;
+
+        // While other entries valid insert coins
+        while (log != NULL) {
+            reinsertCoin(board, log->move, log->pTurn);
+            log = log->next;
+        }
+
+        // Update game board in game structure
+        game->board = board;
+
+    } else {printf("Cannot reconstruct game board as log is empty!");}
+}
+
+// Special copy of insertCoin function with no log update and takes board input rather than game
+void reinsertCoin(struct Position* board, int column, int player){
+
+    //Move 'right' to the correct column
+    for (int counter=0; counter<column-1; counter++){
+        board = board->right;
+    }
+
+    // While not at bottom of grid
+    while(board->down!=NULL && board->down->takenBy==0) {
+        board = board->down;
+    }
+    board->takenBy = player;
+
 }
 
 //Initialises a position to default values
