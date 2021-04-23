@@ -122,20 +122,20 @@ int analysisMode(Game* game){
         scanf("%d",&analysisMenu);
 
          //If Undo Move Option
-        if(analysisMenu == 1){
+        if(analysisMenu == 1 && !(game->step-1 < 0)){
             game->step--;
             //stepCounter--;
-        } else if (analysisMenu == 2){
+        } else if (analysisMenu == 2 && !(game->step+1 > noOfSteps)){
             game->step++;
         } else if (analysisMenu == 0) {
-            exited = 0;
             game->board = board;
             moveController(game);
             return 0;
+        } else {
+            printf("\n !! You have reached the start and/or end of the current logged game !!");
         }
 
     }
-    return 0;
 }
 
 
