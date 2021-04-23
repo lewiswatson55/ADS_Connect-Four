@@ -188,6 +188,7 @@ void loadGames(){
         int lineCounter = 0;
 
         // Show Game List Menu and get Choice
+        printf("\nGame Choice:");
         scanf("%d",&gameLoadChoice);
 
         while(fgets(line,LINE_LENGTH,fptr2) != NULL) {
@@ -211,7 +212,7 @@ void loadLog(char line[LINE_LENGTH]) {
 
     int *columnSize, *rowSize;
     char *player1, *player2;
-    int playerCount = 0, fileCount = 0;
+    int *gameType, fileCount = 0;
     struct Entry* log = newEntry(NULL,0,0);
 
     player1 = player2 = NULL;
@@ -220,12 +221,13 @@ void loadLog(char line[LINE_LENGTH]) {
     //Split line into parts, loop until part variable (p) is null
     for (char *p = strtok(line,";"); p != NULL; p = strtok(NULL, ";"))
     {
-        if (fileCount==1){char *ptr; int i = strtol(p, &ptr, 10); columnSize = &i;}
-        else if (fileCount==2){char *ptr; int i = strtol(p, &ptr, 10); rowSize = &i;}
-        else if (fileCount==3){
+        if (fileCount==1){char *ptr; int i = strtol(p, &ptr, 10); gameType = &i;}
+        else if (fileCount==2){char *ptr; int i = strtol(p, &ptr, 10); columnSize = &i;}
+        else if (fileCount==3){char *ptr; int i = strtol(p, &ptr, 10); rowSize = &i;}
+        else if (fileCount==4){
             player1 = p;
-        } else if (fileCount == 4){player2 = p;}
-        else if (fileCount==5) {
+        } else if (fileCount == 5){player2 = p;}
+        else if (fileCount==6) {
             int pTurn = 1;
             for (char *c = strtok(p,","); c != NULL; c = strtok(NULL, ",")) {
                 char *ptr; int i = strtol(c, &ptr, 10);
@@ -237,6 +239,23 @@ void loadLog(char line[LINE_LENGTH]) {
         fileCount++;
     }
 
-    printf("\n\nPlayer 1: %s\nPlayer 2: %s\nColumn:Row: %d:%d\nLog: Maybe?",player1,player2,*columnSize,*rowSize);
+    //printf("\n\nPlayer 1: %s\nPlayer 2: %s\nColumn:Row: %d:%d\nLog: Maybe?",player1,player2,*columnSize,*rowSize);
     //printf("\n\n%s",columnSize);
+
+    //Create Game Struct
+    Game game = {
+            .name1 = player1,
+            .name2 = player2,
+            .rowSize = *rowSize,
+            .columnSize = *columnSize,
+            .board = constructLinkedMatrix(*rowSize, *columnSize),
+            .pTurn = 1,
+            .log = log,
+            .gameType = *gameType,
+            .step = 0
+    };
+
+    // Enter Analysis Mode
+    analysisMode(&game);
+
 }

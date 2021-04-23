@@ -114,6 +114,9 @@ int analysisMode(Game* game){
         // Show Current Board
         displayBoard(board, game->columnSize);
 
+        // Display current player
+        printf("Player Turn: %d\n",game->pTurn);
+
         // Show Analysis Menu and get Choice
         printf("\nAnalysis Menu:\n0. Continue from this point\n1. Undo Move\n2. Redo Next Move\n\nOption: ");
         int analysisMenu;
