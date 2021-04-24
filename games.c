@@ -151,7 +151,7 @@ int analysisMode(Game* game){
         printf("Player Turn: %d\n",game->pTurn);
 
         // Show Analysis Menu and get Choice
-        printf("\nAnalysis Menu:\n0. Continue from this point\n1. Undo Move\n2. Redo Next Move\n\nOption: ");
+        printf("\nAnalysis Menu:\n0. Continue from this point\n1. Undo Move\n2. Redo Next Move\n3. Jump to End (Last Logged Move)\n\nOption: ");
         int analysisMenu;
         scanf("%d",&analysisMenu);
 
@@ -170,6 +170,8 @@ int analysisMode(Game* game){
             //Go back to moveController i.e resume the game
             moveController(game);
             return 0;
+        } else if (analysisMenu == 3){ // Move to end of Log
+            while(!(game->step+1 > noOfSteps)) { game->step++; if (game->pTurn==1) {game->pTurn=2;} else if (game->pTurn==2) {game->pTurn=1;} }
         } else {
             // Catch when user selects invalid analysis menu option
             printf("\n !! You have reached the start and/or end of the current logged game !!");
