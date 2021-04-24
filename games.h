@@ -1,4 +1,5 @@
 //
+// Games Header File
 // Created by lewis on 13/04/2021.
 //
 
@@ -7,11 +8,18 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define LINE_LENGTH 1000
 #define MAX_GRID_SIZE 10
 #define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
 
+// Global Menu Variable
 char menuSelection;
 
+
+// Data Structures
 typedef struct {
     char *name1, *name2;
     int rowSize, columnSize;
@@ -31,45 +39,43 @@ struct Entry {
     int move;
 };
 
-//struct node{
-//    struct Position * data;
-//    struct node * link;
-//};
-
 struct Position {
     bool valid;
     int takenBy;
     struct Position *right, *down, *left, *up;
 };
 
+// DS Initialisers
+struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
+struct Position* constructLinkedMatrix(int row, int column);
+void linkUpLeft(struct Position* board, int row, int column);
+
+struct Entry* newEntry(struct Entry* log, int move, int pTurn);
+
 void menu();
 void cpuGame();
-
-void saveGameLog(Game game, char* gameName);
-struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
-struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);
-void displayBoard(struct Position* board, int width);
 int moveController(Game* game);
+
+// In Game
+void displayBoard(struct Position* board, int width);
 void insertCoin(Game* game, int column, int player);
+void saveGameLog(Game game, char* gameName);
+
+// Validation and Checks
 bool isInRange(int lowerLimit, int upperLimit, int no);
+
 int checkWinConditions(Game* game);
 int checkVerticalWinCondition(Game* game);
 int checkHorizontalWinCondition(Game* game);
 int checkDiagonalWinConditionNeg(Game* game);
 int checkDiagonalWinConditionPos(Game* game);
-void gameController();
-void player1Move(),player2Move();
-void gravityMove(); //Animate dropping?
 
 void awaitInput();
 
-void linkUpLeft(struct Position* board, int row, int column);
-
+// Reconstructing and Analysis Mode
 int analysisMode(Game* game);
-
-struct Position* constructLinkedMatrix(int row, int column);
-void reconstructBoard(Game* game);
 void reinsertCoin(struct Position* board, int column, int player);
+void reconstructBoard(Game* game);
 
 #endif //ADSCOURSEWORK_GAMEBOARD_H
