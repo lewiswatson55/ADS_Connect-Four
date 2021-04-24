@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #define LINE_LENGTH 1000
-#define NAME_SIZE 25
 
 //Game Header File
 #include "games.h"
@@ -10,25 +9,29 @@
 void startGame();
 void loadLog(char line[LINE_LENGTH]);
 void loadGames();
-void otherOption();
 
 void menu(){
 
     // Clear Command Prompt - Window's Exclusive, could use preprocessor to change this depending on OS however, this has not been implemented.
-    system("cls");
+    //system("cls");
 
-    printf("\nWelcome to Connect Four - CLI Edition!\n\nPlease select from the menu then press enter...\n\n1. Start Game\n2. Other Option\n0. Exit\nChoice:  ");
+    printf("\nWelcome to Connect Four - CLI Edition!\n\nPlease select from the menu then press enter...\n\n"
+           "1. New Game\n2. New Game (Against CPU)\n3. Playback Game (Analysis Mode)\n0. Exit\n\nChoice:  ");
     fgets(&menuSelection,8,stdin);
 
     switch (menuSelection) {
-        case '0':
+        case '0': // Exit
             return;
             break;
-        case '1':
+        case '1': // Normal Game
             startGame();
             break;
-        case '2':
-            otherOption();
+        case '2': // CPU Game
+            //cpuGame();
+            break;
+
+        case '3': // Analysis Mode Replay
+            loadGames();
             break;
 
         default:
@@ -41,7 +44,8 @@ void menu(){
 
 int main(int argc, char **argv)
 {
-    //menu();
+    //awaitInput();
+    menu();
     //newGame("Lewis", "Kate", 7, 6);
 
 
@@ -149,11 +153,62 @@ int main(int argc, char **argv)
 }
 
 void startGame(){
-    printf("\nStart Game\n");
+
+    // Initialise Variables
+    char playerOne[20], playerTwo[20];
+    int boardSize;
+
+    printf("\nEnter Player One's Name (Max 20 Characters):");
+    scanf("%s",playerOne);
+
+    printf("\nEnter Player Two's Name (Max 20 Characters):");
+    scanf("%s",playerTwo);
+
+    // Show Menu Options
+    printf("\n\n\nPlease select a Game Type:\n\n1. Standard Game (7x6 Board)\n2. Mini Game (4x4)\n3. Massive Game (10x10)\n4. Custom Game (Variable Board Size/Shape)\n");
+
+    // Show Game List Menu and get Choice
+    printf("\nGame Choice:");
+    scanf("%d",&boardSize);
+
+    // Validate Input
+    if(!isInRange(1,4,boardSize)){startGame();}
+
+    else {
+        if(boardSize==1){newGame(playerOne, playerTwo,7,6);} //Normal Game
+        else if(boardSize==2){newGame(playerOne,playerTwo,4,4);} //Mini Game
+        else if(boardSize==3){newGame(playerOne,playerTwo,10,10);} //Big Game
+        else if(boardSize==4){
+
+            // Initialise Variables
+            int selectedCol;
+            int selectedRow;
+
+            //Get Cols
+            printf("\nHow many columns? (4-10):");
+            scanf("%d",&selectedCol);
+
+            //Validate
+            if (!isInRange(4,10,selectedCol)){menu();}
+
+            //Get Rows
+            printf("\nHow many rows? (2-10):");
+            scanf("%d",&selectedRow);
+
+            //Validate
+            if (!isInRange(2,10,selectedRow)){menu();}
+
+            //Start the Game
+            newGame(playerOne,playerTwo,selectedCol,selectedRow);
+
+        }
+    }
+
+
 }
 
-void otherOption(){
-    printf("\nOther Option\n");
+void cpuGame(){
+    menu();
 }
 
 void loadGames(){

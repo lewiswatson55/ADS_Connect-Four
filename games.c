@@ -679,3 +679,9 @@ bool isInRange(int lowerLimit, int upperLimit, int no)
 {
     return (lowerLimit <= no && no <= upperLimit);
 }
+
+void awaitInput(){
+    printf("(press enter to continue)\n");
+    char enter = 0;
+    while (enter != '\r' && enter != '\n') { enter = getchar(); }
+}

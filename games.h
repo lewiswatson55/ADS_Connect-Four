@@ -43,6 +43,8 @@ struct Position {
 };
 
 void menu();
+void cpuGame();
+
 void saveGameLog(Game game, char* gameName);
 struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
 struct Entry* newEntry(struct Entry* log, int move, int pTurn);
@@ -59,6 +61,8 @@ int checkDiagonalWinConditionPos(Game* game);
 void gameController();
 void player1Move(),player2Move();
 void gravityMove(); //Animate dropping?
+
+void awaitInput();
 
 void linkUpLeft(struct Position* board, int row, int column);
 
