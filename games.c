@@ -77,11 +77,20 @@ int moveController(Game* game){
         printf("\nMenu Options: \n1. Save Game and Quit to Menu\n2. Quit to Menu (No Save)\n3. Review Game (Enter Analysis Mode)\n\nChoice:", currentPlayer);
         scanf("%d",&winMenu);
 
+        // Initialise Game Name
+        char *gameName = "";
+
         // Save Log to File
-        if (winMenu==1) {saveGameLog(*game,"AppleZ");}
+        if (winMenu==1) {
+            printf("\nPlease enter a name to identify this game (max 20 characters):");
+            scanf("%20s",gameName);
+
+            saveGameLog(*game,gameName);
+            menu(); return 0;
+        }
 
         // Return to Menu
-        if(winMenu==2){menu(); return 0;}
+        if(winMenu==2){ menu(); return 0;}
 
         // Enter Analysis Mode
         if (winMenu==3){analysisMode(game); return 0;}

@@ -42,35 +42,35 @@ void menu(){
 int main(int argc, char **argv)
 {
     //menu();
-    //newGame("Lewis", "Kate", 7, 6);
+    newGame("Lewis", "Kate", 7, 6);
 
 
 
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(10,10);
 
-    struct Entry* loggyboi = newEntry(NULL, 0, 0);
+//    struct Entry* loggyboi = newEntry(NULL, 0, 0);
 //    newEntry(loggyboi, 1, 1);
 //    newEntry(loggyboi, 1, 2);
 
     //Create Game Struct
-    Game game = {
-            .name1 = "player1",
-            .name2 = "player2",
-            .rowSize = 7,
-            .columnSize = 6,
-            .board = constructLinkedMatrix(7, 6),
-            .pTurn = 1,
-            .log = loggyboi,
-            .gameType = 0,
-            .step = 0
-
-    };
-
-    insertCoin(&game, 6, 1);
-    insertCoin(&game, 6, 2);
-    insertCoin(&game, 4, 1);
-    insertCoin(&game, 3, 2);
+//    Game game = {
+//            .name1 = "player1",
+//            .name2 = "player2",
+//            .rowSize = 7,
+//            .columnSize = 6,
+//            .board = constructLinkedMatrix(7, 6),
+//            .pTurn = 1,
+//            .log = loggyboi,
+//            .gameType = 0,
+//            .step = 0
+//
+//    };
+//
+//    insertCoin(&game, 6, 1);
+//    insertCoin(&game, 6, 2);
+//    insertCoin(&game, 4, 1);
+//    insertCoin(&game, 3, 2);
 //
 //    analysisMode(&game);
 
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
 
     //loadGames();
 
-    saveGameLog(game, "Apples");
+    //saveGameLog(game, "Apples");
 
     return 0;
 }
