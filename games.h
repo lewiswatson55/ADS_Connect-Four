@@ -8,8 +8,9 @@
 #include <stdbool.h>
 #include <string.h>
 #define MAX_GRID_SIZE 10
+#define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
 
-int count, valid;
+char menuSelection;
 
 typedef struct {
     char *name1, *name2;
@@ -41,6 +42,8 @@ struct Position {
     struct Position *right, *down, *left, *up;
 };
 
+void menu();
+void saveGameLog(Game game, char* gameName);
 struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
 struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 void newGame(char *player1, char *player2, int columns, int rows);

@@ -2,13 +2,10 @@
 
 #define LINE_LENGTH 1000
 #define NAME_SIZE 25
-#define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
 
 //Game Header File
 #include "games.h"
 #include <stdlib.h>
-
-char menuSelection;
 
 void startGame();
 void loadLog(char line[LINE_LENGTH]);
@@ -16,6 +13,9 @@ void loadGames();
 void otherOption();
 
 void menu(){
+
+    // Clear Command Prompt - Window's Exclusive, could use preprocessor to change this depending on OS however, this has not been implemented.
+    system("cls");
 
     printf("\nWelcome to Connect Four - CLI Edition!\n\nPlease select from the menu then press enter...\n\n1. Start Game\n2. Other Option\n0. Exit\nChoice:  ");
     fgets(&menuSelection,8,stdin);
@@ -32,7 +32,8 @@ void menu(){
             break;
 
         default:
-            printf("Invalid Choice... %c", menuSelection);
+            printf("\n\nInvalid Choice... %c\n", menuSelection);
+            menu();
             break;
     }
 }
@@ -48,28 +49,28 @@ int main(int argc, char **argv)
     //struct Position *board = createBoard(0,0,3,3);
     //struct Position *board = constructLinkedMatrix(10,10);
 
-    //struct Entry* loggyboi = newEntry(NULL, 0, 0);
+    struct Entry* loggyboi = newEntry(NULL, 0, 0);
 //    newEntry(loggyboi, 1, 1);
 //    newEntry(loggyboi, 1, 2);
 
     //Create Game Struct
-//    Game game = {
-//            .name1 = "player1",
-//            .name2 = "player2",
-//            .rowSize = 7,
-//            .columnSize = 6,
-//            .board = constructLinkedMatrix(7, 6),
-//            .pTurn = 1,
-//            .log = loggyboi,
-//            .gameType = 0,
-//            .step = 0
-//
-//    };
+    Game game = {
+            .name1 = "player1",
+            .name2 = "player2",
+            .rowSize = 7,
+            .columnSize = 6,
+            .board = constructLinkedMatrix(7, 6),
+            .pTurn = 1,
+            .log = loggyboi,
+            .gameType = 0,
+            .step = 0
 
-//    insertCoin(&game, 6, 2);
-//    insertCoin(&game, 6, 2);
-//    insertCoin(&game, 4, 1);
-//    insertCoin(&game, 3, 1);
+    };
+
+    insertCoin(&game, 6, 1);
+    insertCoin(&game, 6, 2);
+    insertCoin(&game, 4, 1);
+    insertCoin(&game, 3, 2);
 //
 //    analysisMode(&game);
 
@@ -140,7 +141,9 @@ int main(int argc, char **argv)
 //    newEntry(log, 1,1);
 //    newEntry(log, 2,2);
 
-    loadGames();
+    //loadGames();
+
+    saveGameLog(game, "Apples");
 
     return 0;
 }

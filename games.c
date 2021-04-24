@@ -69,7 +69,24 @@ int moveController(Game* game){
     // Get Winners Name
     if (game->winner == 1) {winner = game->name1;} else {winner = game->name2;}
 
-    printf("Congratulations to %s for winning!", winner);
+    printf("Congratulations to %s for winning!\n", winner);
+
+    // Next Steps Menu
+    int winMenu = 101;
+    while(!isInRange(1,3,winMenu)||(winMenu!=101)){
+        printf("\nMenu Options: \n1. Save Game and Quit to Menu\n2. Quit to Menu (No Save)\n3. Review Game (Enter Analysis Mode)\n\nChoice:", currentPlayer);
+        scanf("%d",&winMenu);
+
+        // Save Log to File
+        if (winMenu==1) {saveGameLog(*game,"AppleZ");}
+
+        // Return to Menu
+        if(winMenu==2){menu(); return 0;}
+
+        // Enter Analysis Mode
+        if (winMenu==3){analysisMode(game); return 0;}
+
+    }
 
     return 0;
 }
@@ -143,6 +160,30 @@ int analysisMode(Game* game){
         }
 
     }
+}
+
+void saveGameLog(Game game, char* gameName){
+
+    //Initialise and open file
+    FILE *fp;
+    fp = fopen(GAMEDATAFILE, "a+");
+
+    // Append Data (excluding logs)
+    fprintf(fp, "\n%s;%i;%i;%i;%s;%s;",gameName,game.gameType,game.columnSize,game.rowSize,game.name1,game.name2);
+
+    // Print Log to File
+    struct Entry* log = game.log;
+    char *logStr = "";
+    while(log->next!=NULL){
+        if (log->move == 0){}
+        else if (log->next != NULL){
+            fprintf(fp,"%i,",log->move);
+        }
+        log = log->next;
+    }
+    //Write last line (different as excluding comma) then close the file.
+    fprintf(fp,"%i",log->move);
+    fclose(fp);
 }
 
 // Create New Entry Structure
