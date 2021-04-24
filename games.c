@@ -63,8 +63,12 @@ int moveController(Game* game){
 
         //Validate is valid then insert coin and toggle current player id
         if (isInRange(1,game->columnSize,selection)){
-            insertCoin(game, selection, game->pTurn);
-            togglePlayer(game);
+
+            // Only Toggle Player if Valid Move
+            if (!insertCoin(game, selection, game->pTurn)){
+                togglePlayer(game);
+            }
+
         } else {printf("\n\nInvalid choice! Try Again!\t");} //Invalid Option Chosen
     }
 
@@ -384,7 +388,7 @@ void displayBoard(struct Position* board, int width)
     }
 }
 // Inserts coin at selected position by given player into the gameboard
-void insertCoin(Game* game, int column, int player){
+int insertCoin(Game* game, int column, int player){
 
     // Initialise board pointer
     struct Position* board = game->board;
@@ -393,6 +397,9 @@ void insertCoin(Game* game, int column, int player){
     for (int counter=0; counter<column-1; counter++){
         board = board->right;
     }
+
+    //Check Column Not Full
+    if(board->takenBy!=0){return 1;}
 
     // While not at bottom of grid
     while(board->down!=NULL && board->down->takenBy==0) {
@@ -405,6 +412,8 @@ void insertCoin(Game* game, int column, int player){
     // Add move to game log
     newEntry(game->log, column, player);
     game->step++;
+
+    return 0;
 }
 
 // All Win Conditions

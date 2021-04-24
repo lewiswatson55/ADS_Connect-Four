@@ -63,7 +63,7 @@ void loadGames();
 // In Game
 int moveController(Game* game);
 void displayBoard(struct Position* board, int width);
-void insertCoin(Game* game, int column, int player);
+int insertCoin(Game* game, int column, int player);
 void saveGameLog(Game game, char* gameName);
 
 // Validation and Checks
