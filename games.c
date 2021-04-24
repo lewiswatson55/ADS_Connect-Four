@@ -52,7 +52,7 @@ int moveController(Game* game){
         displayBoard(game->board, game->columnSize);
 
         //Show Current Player and Show Options
-        printf("\nCurrent player is %s!\nPlease select a column: ", currentPlayer);
+        printf("\nCurrent player is %s!\nPlease enter a column (or 101 to enter Analysis Mode): ", currentPlayer);
 
         // Get Option from User
         int selection;
