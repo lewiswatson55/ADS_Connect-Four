@@ -490,7 +490,7 @@ int checkHorizontalWinCondition(Game* game){
             if (pointer!=NULL) {
 
                 // Skip other checks if position has not been taken by a player
-                if (pointer->takenBy == 0) {}
+                if (pointer->takenBy == 0) {cons1=0; cons2=0;}
 
                     // Else if position is taken by player 1, reset player2's consecutive position counter, and add to player 1's
                 else if (pointer->takenBy == 1) {
