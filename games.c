@@ -4,14 +4,11 @@
 //
 
 #include "games.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 
+// Creates game with attributes passed in
 void newGame(char *player1, char *player2, int columns, int rows){
 
-    //Create Game Struct
+    //Create Game default Struct
     Game game = {
             .name1 = player1,
             .name2 = player2,
@@ -24,6 +21,7 @@ void newGame(char *player1, char *player2, int columns, int rows){
             .step = 0
     };
 
+    // Go to player's move controller function (ie start game)
     moveController(&game);
 
 };
@@ -197,11 +195,14 @@ void saveGameLog(Game game, char* gameName){
 
 // Create New Entry Structure
 struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
+    //Assuming log is not empty means valid game
     if (log!=NULL) {
 
+        // Loop through all log entries
         while (log->next!=NULL){
             log = log->next;
         }
+        //Create Entry with given attributes
         struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
         entry->prev = log;
         entry->next = NULL;
@@ -222,30 +223,6 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
 
     return log;
 }
-// Expected input is game struct with names, and populated log property
-void reconstructBoard(Game* game) {
-
-    // Initialise temp variables
-    struct Entry* log = game->log;
-    struct Position* board = constructLinkedMatrix(game->rowSize, game->columnSize);
-
-    // Check log is a valid board
-    if (log != NULL){
-
-        // Move to next log entry
-        log = log->next;
-
-        // While other entries valid insert coins
-        while (log != NULL) {
-            reinsertCoin(board, log->move, log->pTurn);
-            log = log->next;
-        }
-
-        // Update game board in game structure
-        game->board = board;
-
-    } else {printf("Cannot reconstruct game board as log is empty!");}
-}
 // Special copy of insertCoin function with no log update and takes board input rather than game
 void reinsertCoin(struct Position* board, int column, int player){
 
@@ -259,7 +236,6 @@ void reinsertCoin(struct Position* board, int column, int player){
         board = board->down;
     }
     board->takenBy = player;
-
 }
 
 //Initialises a position to default values
@@ -333,6 +309,7 @@ struct Position* constructLinkedMatrix(int row, int column) {
 
     return mainHead;
 }
+//Adds Up and Left Pointers to board
 void linkUpLeft(struct Position* board, int row, int column){
 
     struct Position *pointer, *rowPointer, *colPointer;
@@ -365,11 +342,9 @@ void linkUpLeft(struct Position* board, int row, int column){
     }
 }
 
+//Displays Board - Requires knowledge of numberOfColumns
 void displayBoard(struct Position* board, int width)
 {
-    // Clear Screen
-    //system("cls");
-
     // Create Row Pointer
     struct Position* row;
 
@@ -397,8 +372,10 @@ void displayBoard(struct Position* board, int width)
         column = column->down;
     }
 }
+// Inserts coin at selected position by given player into the gameboard
 void insertCoin(Game* game, int column, int player){
 
+    // Initialise board pointer
     struct Position* board = game->board;
 
     //Move 'right' to the correct column
@@ -408,27 +385,15 @@ void insertCoin(Game* game, int column, int player){
 
     // While not at bottom of grid
     while(board->down!=NULL && board->down->takenBy==0) {
+        // Move down
         board = board->down;
     }
+    //Set Taken By
     board->takenBy = player;
 
     // Add move to game log
     newEntry(game->log, column, player);
     game->step++;
-}
-
-//Method to perform a deep copy of a position
-struct Position* deepCopyPosition(struct Position* to, struct Position* from){
-    if (from!=NULL && to!=NULL) {
-        to->valid = from->valid;
-        to->right = from->right;
-        to->down = from->down;
-        to->takenBy = from->takenBy;
-        return to;
-    }
-    //If null passed in on either to or from, just create new position with default values.
-    struct Position* other = initPosition();
-    return other;
 }
 
 // All Win Conditions
@@ -677,9 +642,11 @@ int checkDiagonalWinConditionPos(Game* game){
 // Validation
 bool isInRange(int lowerLimit, int upperLimit, int no)
 {
+    // Checks number is in valid range
     return (lowerLimit <= no && no <= upperLimit);
 }
 
+// "Press enter key to continue" Function
 void awaitInput(){
     printf("(press enter to continue)\n");
     char enter = 0;
