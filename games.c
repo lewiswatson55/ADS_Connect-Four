@@ -6,7 +6,7 @@
 #include "games.h"
 
 // Creates game with attributes passed in
-void newGame(char *player1, char *player2, int columns, int rows){
+void newGame(int gameType, char *player1, char *player2, int columns, int rows){
 
     //Create Game default Struct
     Game game = {
@@ -17,7 +17,7 @@ void newGame(char *player1, char *player2, int columns, int rows){
             .board = constructLinkedMatrix(rows, columns),
             .pTurn = 1,
             .log = newEntry(NULL, 0, 0),
-            .gameType = 0,
+            .gameType = gameType,
             .step = 0
     };
 
@@ -45,7 +45,11 @@ int moveController(Game* game){
     while (!checkWinConditions(game)) {
 
         //Set CurrentPlayer Variable Dependant on playerTurn Game Attribute
-        if (game->pTurn == 1) {currentPlayer = game->name1;} else {currentPlayer = game->name2;}
+        if (game->pTurn == 1) {currentPlayer = game->name1;} else {
+            if(game->gameType!=1){
+                currentPlayer = game->name2;
+            } else {insertCPU(game);currentPlayer = game->name1;}
+        }
 
         // Heading for Game Board Display
         printf("\n-----Game Board's Current State-----\n\n");
@@ -85,7 +89,7 @@ int moveController(Game* game){
     // Next Steps Menu
     int winMenu = 101;
     while(!isInRange(1,3,winMenu)||(winMenu!=101)){
-        printf("\nMenu Options: \n1. Save Game and Quit to Menu\n2. Quit to Menu (No Save)\n3. Review Game (Enter Analysis Mode)\n\nChoice:", currentPlayer);
+        printf("\nMenu Options: \n1. Save Game and Quit to Menu\n2. Quit to Menu (No Save)\n3. Review Game (Enter Analysis Mode)\n\nChoice:");
         scanf("%d",&winMenu);
 
         // Initialise Game Name
@@ -206,6 +210,18 @@ void saveGameLog(Game game, char* gameName){
     //Write last line (different as excluding comma) then close the file.
     fprintf(fp,"%i",log->move);
     fclose(fp);
+}
+
+void insertCPU(Game* game){
+    // Generate Random Valid Column
+    int num = (rand() % (game->columnSize - 1 + 1)) + 1;
+
+    // Insert Coin as Player Two if invalid try again
+    if(!insertCoin(game,num,2)){
+        togglePlayer(game);
+    } else {insertCPU(game);}
+
+
 }
 
 // Create New Entry Structure

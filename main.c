@@ -11,7 +11,7 @@ void menu(){
     //system("cls");
 
     printf("\nWelcome to Connect Four - CLI Edition!\n\nPlease select from the menu then press enter...\n\n"
-           "1. New Game\n2. New Game (Against CPU)\n3. Playback Game (Analysis Mode)\n0. Exit\n\nChoice:  ");
+           "1. New Normal Game\n2. New CPU Game (Against CPU)\n3. Playback Game (Analysis Mode)\n0. Exit\n\nChoice:  ");
     fgets(&menuSelection,8,stdin);
 
     switch (menuSelection) {
@@ -19,10 +19,10 @@ void menu(){
             return;
             break;
         case '1': // Normal Game
-            startGame();
+            startGame(0);
             break;
         case '2': // CPU Game
-            //cpuGame();
+            startGame(1);
             break;
 
         case '3': // Analysis Mode Replay
@@ -36,18 +36,22 @@ void menu(){
     }
 }
 
-// Start Normal Game
-void startGame(){
+// Start Specified Game Type
+void startGame(int gameType){
 
     // Initialise Variables
     char playerOne[20], playerTwo[20];
     int boardSize;
 
+    // Get Player 1's Name
     printf("\nEnter Player One's Name (Max 20 Characters):");
     scanf("%s",playerOne);
 
-    printf("\nEnter Player Two's Name (Max 20 Characters):");
-    scanf("%s",playerTwo);
+    // Get Player 2's Name or Ignore if CPU Game
+    if(gameType==0) {
+        printf("\nEnter Player Two's Name (Max 20 Characters):");
+        scanf("%s", playerTwo);
+    }
 
     // Show Menu Options
     printf("\n\n\nPlease select a Game Type:\n\n1. Standard Game (7x6 Board)\n2. Mini Game (4x4)\n3. Massive Game (10x10)\n4. Custom Game (Variable Board Size/Shape)\n");
@@ -57,12 +61,12 @@ void startGame(){
     scanf("%d",&boardSize);
 
     // Validate Input
-    if(!isInRange(1,4,boardSize)){startGame();}
+    if(!isInRange(1,4,boardSize)){startGame(gameType);}
 
     else {
-        if(boardSize==1){newGame(playerOne, playerTwo,7,6);} //Normal Game
-        else if(boardSize==2){newGame(playerOne,playerTwo,4,4);} //Mini Game
-        else if(boardSize==3){newGame(playerOne,playerTwo,10,10);} //Big Game
+        if(boardSize==1){newGame(gameType,playerOne, playerTwo,7,6);} //Normal Game
+        else if(boardSize==2){newGame(gameType,playerOne,playerTwo,4,4);} //Mini Game
+        else if(boardSize==3){newGame(gameType,playerOne,playerTwo,10,10);} //Big Game
         else if(boardSize==4){
 
             // Initialise Variables
@@ -84,17 +88,14 @@ void startGame(){
             if (!isInRange(2,10,selectedRow)){menu();}
 
             //Start the Game
-            newGame(playerOne,playerTwo,selectedCol,selectedRow);
+
+            if (gameType==0){newGame(gameType,playerOne,playerTwo,selectedCol,selectedRow);}
+            else if (gameType==1){newGame(gameType,playerOne,"CPU",selectedCol,selectedRow);}
 
         }
     }
 
 
-}
-
-// Start CPU Game
-void cpuGame(){
-    menu();
 }
 
 // Open Load Games Menu

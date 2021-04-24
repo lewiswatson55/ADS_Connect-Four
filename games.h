@@ -54,14 +54,14 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 
 // Menu
 void menu();
-void cpuGame();
-void newGame(char *player1, char *player2, int columns, int rows);
-void startGame();
+void newGame(int gameType, char *player1, char *player2, int columns, int rows);
+void startGame(int gameType);
 void loadLog(char line[LINE_LENGTH]);
 void loadGames();
 
 // In Game
 int moveController(Game* game);
+void insertCPU(Game* game);
 void displayBoard(struct Position* board, int width);
 int insertCoin(Game* game, int column, int player);
 void saveGameLog(Game game, char* gameName);
