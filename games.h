@@ -52,12 +52,16 @@ void linkUpLeft(struct Position* board, int row, int column);
 
 struct Entry* newEntry(struct Entry* log, int move, int pTurn);
 
+// Menu
 void menu();
 void cpuGame();
 void newGame(char *player1, char *player2, int columns, int rows);
-int moveController(Game* game);
+void startGame();
+void loadLog(char line[LINE_LENGTH]);
+void loadGames();
 
 // In Game
+int moveController(Game* game);
 void displayBoard(struct Position* board, int width);
 void insertCoin(Game* game, int column, int player);
 void saveGameLog(Game game, char* gameName);
