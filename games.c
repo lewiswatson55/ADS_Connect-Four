@@ -40,7 +40,7 @@ void togglePlayer(Game* game) {
 // Plan for un/redo would be check user input over 100 and user 101 102... as other options.
 int moveController(Game* game){
 
-    char *currentPlayer;
+    char *currentPlayer = "";
 
     while (!checkWinConditions(game)) {
 
