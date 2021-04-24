@@ -1,5 +1,5 @@
 //
-// Game Board
+// Games Source File
 // Created by lewis on 12/04/2021.
 //
 
@@ -38,28 +38,37 @@ void togglePlayer(Game* game) {
 // Plan for un/redo would be check user input over 100 and user 101 102... as other options.
 int moveController(Game* game){
 
+    // Initialise current player
     char *currentPlayer = "";
 
+    //Loop through player move cycle until a win condition is met
     while (!checkWinConditions(game)) {
 
+        //Set CurrentPlayer Variable Dependant on playerTurn Game Attribute
         if (game->pTurn == 1) {currentPlayer = game->name1;} else {currentPlayer = game->name2;}
 
+        // Heading for Game Board Display
         printf("\n-----Game Board's Current State-----\n\n");
         displayBoard(game->board, game->columnSize);
 
+        //Show Current Player and Show Options
         printf("\nCurrent player is %s!\nPlease select a column: ", currentPlayer);
 
+        // Get Option from User
         int selection;
         scanf("%d",&selection);
 
+        // Analysis Mode Option Check
         if(selection == 101) {analysisMode(game); return 0;}
 
+        //Validate is valid then insert coin and toggle current player id
         if (isInRange(1,game->columnSize,selection)){
             insertCoin(game, selection, game->pTurn);
             togglePlayer(game);
-        } else {printf("\n\nInvalid choice! Try Again!\t");}
+        } else {printf("\n\nInvalid choice! Try Again!\t");} //Invalid Option Chosen
     }
 
+    // Display Winner and Game Board
     char *winner;
     printf("\n------------------Winner!------------------\n\n");
     displayBoard(game->board, game->columnSize);
