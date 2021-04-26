@@ -33,20 +33,18 @@ typedef struct {
 
 // Log Entry
 struct Entry {
-    struct Entry *prev;
+    //struct Entry *prev;
     struct Entry *next;
     int pTurn;
     int move;
 };
 
 struct Position {
-    bool valid;
     int takenBy;
     struct Position *right, *down, *left, *up;
 };
 
 // DS Initialisers
-struct Position* createBoard(int column, int row, int numberOfColumns, int numberOfRows);
 struct Position* constructLinkedMatrix(int row, int column);
 void linkUpLeft(struct Position* board, int row, int column);
 

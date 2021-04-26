@@ -18,6 +18,7 @@ void newGame(int gameType, char *player1, char *player2, int columns, int rows){
             .pTurn = 1,
             .log = newEntry(NULL, 0, 0),
             .gameType = gameType,
+            .winner = 0,
             .step = 0
     };
 
@@ -76,15 +77,17 @@ int moveController(Game* game){
         } else {printf("\n\nInvalid choice! Try Again!\t");} //Invalid Option Chosen
     }
 
+
     // Display Winner and Game Board
     char *winner;
-    printf("\n------------------Winner!------------------\n\n");
+    printf("\n------------------Game End!------------------\n\n");
     displayBoard(game->board, game->columnSize);
 
     // Get Winners Name
-    if (game->winner == 1) {winner = game->name1;} else {winner = game->name2;}
+    if (game->winner == 1) {winner = game->name1; printf("Congratulations to %s for winning!\n", winner);} else if (game->winner == 2) {winner = game->name2; printf("Congratulations to %s for winning!\n", winner);}
+    else {printf("No Winner!");}
 
-    printf("Congratulations to %s for winning!\n", winner);
+    //printf("Congratulations to %s for winning!\n", winner);
 
     // Next Steps Menu
     int winMenu = 101;
@@ -235,7 +238,7 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
         }
         //Create Entry with given attributes
         struct Entry* entry = (struct Entry *) malloc(sizeof(struct Entry));
-        entry->prev = log;
+        //entry->prev = log;
         entry->next = NULL;
         entry->move = move;
         entry->pTurn = pTurn;
@@ -245,7 +248,7 @@ struct Entry* newEntry(struct Entry* log, int move, int pTurn) {
     } else {
         // Only to be ran when initialising a new log
         struct Entry* log = (struct Entry *) malloc(sizeof(struct Entry));
-        log->prev = NULL;
+        //log->prev = NULL;
         log->next = NULL;
         log->move = move;
         log->pTurn = pTurn;
@@ -272,7 +275,6 @@ void reinsertCoin(struct Position* board, int column, int player){
 //Initialises a position to default values
 struct Position* initPosition(){
     struct Position* pos = (struct Position *) malloc(sizeof(struct Position));
-    pos->valid = false;
     pos->right = NULL;
     pos->down = NULL;
     pos->left = NULL;
@@ -294,7 +296,6 @@ struct Position* constructLinkedMatrix(int row, int column) {
     rightTemp = initPosition();
 
     //Set New Ptr to blank Position
-    newPtr->valid = true;
     newPtr->takenBy = 0;
 
     for(int i=0; i<row; i++){
@@ -305,7 +306,6 @@ struct Position* constructLinkedMatrix(int row, int column) {
         for(int j=0; j<column; j++){
 
             tmpHead->takenBy = 0;
-            tmpHead->valid = false;
             newPtr = initPosition();
 
             //Initialise Main head Variable with tmpHead variable
@@ -434,6 +434,13 @@ int insertCoin(Game* game, int column, int player){
 
 // All Win Conditions
 int checkWinConditions(Game* game){
+
+    // Check if Board is Full
+    if (game->step>=(game->columnSize*game->rowSize)){
+        game->winner = 0;
+        return 1;
+    }
+
     if (checkVerticalWinCondition(game) || checkHorizontalWinCondition(game) || checkDiagonalWinConditionNeg(game) || checkDiagonalWinConditionPos(game)) {
         return 1;
     }
