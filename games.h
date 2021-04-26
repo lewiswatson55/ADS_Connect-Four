@@ -13,7 +13,8 @@
 
 #define LINE_LENGTH 1000
 #define MAX_GRID_SIZE 10
-#define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
+//#define GAMEDATAFILE "C:\\Users\\lewis\\CLionProjects\\ADSCoursework\\gamedata.txt"
+#define GAMEDATAFILE "./gamedata.txt"
 
 // Global Menu Variable
 char menuSelection;

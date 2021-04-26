@@ -148,6 +148,7 @@ void loadGames(){
     } else {
         // No games in game data file...
         printf("No games were found... Returning to Main Menu!");
+        menu();
     }
 
 
