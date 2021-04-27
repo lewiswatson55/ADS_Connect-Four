@@ -1,11 +1,11 @@
 # Algorithms and Data Structures Coursework (SET08122)
 A Command Line Implementation of Milton Bradley's Connect Four Board Game for SET08122's Coursework
 
-<br>
 [![Releases](https://img.shields.io/github/release/lewiswatson55/ADS_Connect-Four/all.svg?style=flat-square)](https://github.com/lewiswatson55/ADS_Connect-Four/releases)
 
 ## Dependencies
 [Visual Studio Developer Command Prompt](https://docs.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell)
+<br>
 Other compilers may work however, this project has only been tested using NMAKE on the Visual Studio Dev Command Prompt
 
 # Usage
@@ -21,7 +21,7 @@ Note 0: The GCC Compiler is not recommended as there have been issues found usin
 ## Compiling the executable:
 1. Open Visual Studio's Developer Command Prompt
 
-2. Compile 'All' using NMAKE (this will also remove old builds from the folder via nmake clean) ``` nmake all ```
+2. Compile 'all' using NMAKE: (this will also remove old builds from the folder via nmake clean) ``` nmake all ```
 
 or
 
