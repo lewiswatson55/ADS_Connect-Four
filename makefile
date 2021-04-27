@@ -1,4 +1,4 @@
-all:  main
+all:  clean main
 
 main:
 	cl /o ADS_Coursework_40432878 main.c games.c
